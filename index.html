@@ -1,20 +1,16 @@
 <!DOCTYPE html>
-<html lang="en" class="scroll-smooth">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Shuhada Foundation of Ireland | Shaheed Bilal Masjid</title>
-    
-    <!-- External Resources -->
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://unpkg.com/lucide@latest"></script>
-    
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,600;0,700;1,600;1,700&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,700;1,700&display=swap');
         
         :root {
             --primary: #12372A; /* Deep Forest Green */
-            --primary-light: #1A4D3B;
             --accent: #AD8B3A; /* Sophisticated Gold */
             --bg-soft: #FBF9F1;
         }
@@ -22,205 +18,148 @@
         body {
             font-family: 'Plus Jakarta Sans', sans-serif;
             color: #1a1a1a;
-            background-color: var(--bg-soft);
-            overflow-x: hidden;
+            scroll-behavior: smooth;
         }
 
         .font-serif { font-family: 'Playfair Display', serif; }
 
+        .bg-primary { background-color: var(--primary); }
         .text-primary { color: var(--primary); }
         .text-accent { color: var(--accent); }
-        .bg-primary { background-color: var(--primary); }
-        .bg-accent { background-color: var(--accent); }
         
         .hero-pattern {
             background-color: var(--primary);
-            background-image: radial-gradient(circle at center, rgba(173,139,58,0.15) 0%, transparent 70%),
-                              url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M30 0l30 30-30 30L0 30z' fill='%23ffffff' fill-opacity='0.03' fill-rule='evenodd'/%3E%3C/svg%3E");
+            background-image: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M30 0l30 30-30 30L0 30z' fill='%23ffffff' fill-opacity='0.03' fill-rule='evenodd'/%3E%3C/svg%3E");
         }
 
         .glass-nav {
-            backdrop-filter: blur(16px);
-            -webkit-backdrop-filter: blur(16px);
-            background-color: rgba(255, 255, 255, 0.9);
-            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            backdrop-filter: blur(12px);
+            background-color: rgba(255, 255, 255, 0.85);
+            transition: all 0.3s ease;
         }
 
         .btn-gradient {
-            background: linear-gradient(135deg, var(--accent), #8c6e2a);
+            background: linear-gradient(135deg, var(--accent), #91722e);
             transition: all 0.3s ease;
-            position: relative;
-            overflow: hidden;
         }
-        
-        .btn-gradient::after {
-            content: '';
-            position: absolute;
-            top: 0; left: -100%; width: 50%; height: 100%;
-            background: linear-gradient(to right, transparent, rgba(255,255,255,0.3), transparent);
-            transform: skewX(-20deg);
-            transition: 0.5s;
-        }
-        
-        .btn-gradient:hover::after {
-            left: 150%;
-        }
-
         .btn-gradient:hover {
+            filter: brightness(1.1);
             transform: translateY(-2px);
             box-shadow: 0 10px 25px -5px rgba(173, 139, 58, 0.4);
         }
 
         .service-card {
-            transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
         }
         .service-card:hover {
-            transform: translateY(-10px);
-            box-shadow: 0 30px 60px -15px rgba(18, 55, 42, 0.1);
-            background-color: #ffffff;
+            transform: translateY(-8px);
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.08);
         }
 
-        /* Scroll Reveal Utility */
+        /* Scroll Animation Classes */
         .reveal {
             opacity: 0;
-            transform: translateY(40px);
-            transition: all 0.8s cubic-bezier(0.5, 0, 0, 1);
+            transform: translateY(30px);
+            transition: all 0.8s ease-out;
         }
         .reveal.active {
             opacity: 1;
             transform: translateY(0);
         }
-        .reveal-delay-1 { transition-delay: 0.1s; }
-        .reveal-delay-2 { transition-delay: 0.2s; }
-        .reveal-delay-3 { transition-delay: 0.3s; }
 
+        /* Progress Animation */
         @keyframes fillProgress { from { width: 0; } to { width: 78%; } }
-        .progress-animate { animation: fillProgress 2.5s cubic-bezier(0.1, 0.7, 0.1, 1) forwards; }
-        
-        /* Custom Scrollbar */
-        ::-webkit-scrollbar { width: 10px; }
-        ::-webkit-scrollbar-track { background: var(--bg-soft); }
-        ::-webkit-scrollbar-thumb { background: #d1c8b4; border-radius: 5px; }
-        ::-webkit-scrollbar-thumb:hover { background: var(--accent); }
+        .progress-animate { animation: fillProgress 2.5s ease-out forwards; }
     </style>
 </head>
-<body class="antialiased selection:bg-[#AD8B3A] selection:text-white">
+<body class="bg-[#FBF9F1]">
 
-    <nav id="navbar" class="fixed w-full z-50 glass-nav border-b border-gray-200/50">
+    <!-- Navigation -->
+    <nav class="fixed w-full z-50 glass-nav border-b border-gray-100">
         <div class="max-w-7xl mx-auto px-6 lg:px-12">
-            <div class="flex justify-between h-20 items-center transition-all duration-300" id="nav-container">
-                <!-- Logo -->
-                <a href="#home" class="flex items-center space-x-3 group">
-                    <div class="bg-primary p-2.5 rounded-xl shadow-[0_8px_16px_rgba(18,55,42,0.2)] group-hover:bg-[#1A4D3B] transition-colors">
+            <div class="flex justify-between h-20 items-center">
+                <div class="flex items-center space-x-3 cursor-pointer" onclick="window.scrollTo(0,0)">
+                    <div class="bg-primary p-2.5 rounded-xl shadow-lg">
                         <i data-lucide="mosque" class="text-white w-6 h-6"></i>
                     </div>
                     <div>
                         <span class="text-xl font-extrabold text-primary tracking-tight block leading-none uppercase">SHUHADA</span>
-                        <span class="text-[9px] tracking-[0.2em] text-gray-500 uppercase font-bold">Foundation of Ireland</span>
+                        <span class="text-[9px] tracking-[0.2em] text-gray-400 uppercase font-bold">Foundation of Ireland</span>
                     </div>
-                </a>
+                </div>
                 
-                <!-- Desktop Links -->
-                <div class="hidden lg:flex space-x-8 items-center font-bold text-sm">
-                    <a href="#home" class="text-primary/80 hover:text-accent transition-colors">Home</a>
-                    <a href="#services" class="text-primary/80 hover:text-accent transition-colors">Services</a>
-                    <a href="#madrassa" class="text-primary/80 hover:text-accent transition-colors">Madrassa</a>
-                    <a href="#events" class="text-primary/80 hover:text-accent transition-colors">Events</a>
-                    <a href="#construction" class="text-primary/80 hover:text-accent transition-colors">Shaheed Bilal</a>
-                    <a href="#donate" class="btn-gradient text-white px-7 py-2.5 rounded-full shadow-lg font-bold">Donate Now</a>
+                <div class="hidden lg:flex space-x-10 items-center font-bold text-sm">
+                    <a href="#home" class="text-primary hover:text-accent transition-colors">Home</a>
+                    <a href="#services" class="text-primary hover:text-accent transition-colors">Services</a>
+                    <a href="#madrassa" class="text-primary hover:text-accent transition-colors">Education</a>
+                    <a href="#events" class="text-primary hover:text-accent transition-colors">Events</a>
+                    <a href="#construction" class="text-primary hover:text-accent transition-colors">Shaheed Bilal</a>
+                    <a href="#donate" class="btn-gradient text-white px-8 py-3 rounded-full shadow-lg">Donate Now</a>
                 </div>
 
-                <!-- Mobile Menu Button -->
-                <button id="menu-btn" class="lg:hidden p-2 text-primary hover:bg-gray-100 rounded-lg transition-colors">
+                <button id="menu-btn" class="lg:hidden p-2 text-primary">
                     <i data-lucide="menu" class="w-7 h-7"></i>
                 </button>
             </div>
         </div>
     </nav>
 
-    <div id="mobile-menu" class="fixed inset-0 z-[60] bg-white/95 backdrop-blur-xl hidden flex-col justify-center items-center text-center space-y-8 opacity-0 transition-opacity duration-300">
-        <button id="close-menu" class="absolute top-6 right-6 p-3 text-primary hover:bg-gray-100 rounded-full transition-colors">
-            <i data-lucide="x" class="w-8 h-8"></i>
-        </button>
-        <a href="#home" class="text-3xl font-serif text-primary hover:text-accent transition-colors">Home</a>
-        <a href="#services" class="text-3xl font-serif text-primary hover:text-accent transition-colors">Services</a>
-        <a href="#madrassa" class="text-3xl font-serif text-primary hover:text-accent transition-colors">Madrassa</a>
-        <a href="#events" class="text-3xl font-serif text-primary hover:text-accent transition-colors">Events</a>
-        <a href="#construction" class="text-3xl font-serif text-primary hover:text-accent transition-colors">Shaheed Bilal</a>
-        <a href="#donate" class="btn-gradient text-white px-10 py-4 rounded-full text-xl mt-4">Donate</a>
+    <!-- Mobile Menu Overlay -->
+    <div id="mobile-menu" class="fixed inset-0 z-[60] bg-white hidden flex-col justify-center items-center text-center space-y-8">
+        <button id="close-menu" class="absolute top-6 right-6 p-2"><i data-lucide="x" class="w-8 h-8"></i></button>
+        <a href="#home" class="text-2xl font-bold text-primary">Home</a>
+        <a href="#services" class="text-2xl font-bold text-primary">Services</a>
+        <a href="#madrassa" class="text-2xl font-bold text-primary">Education</a>
+        <a href="#events" class="text-2xl font-bold text-primary">Events</a>
+        <a href="#construction" class="text-2xl font-bold text-primary">Shaheed Bilal</a>
+        <a href="#donate" class="text-2xl font-bold text-accent">Donate</a>
     </div>
 
-    <section id="home" class="relative min-h-[100svh] flex items-center pt-20 hero-pattern overflow-hidden">
-        <!-- High Quality Background Image Overlay -->
-        <div class="absolute inset-0 z-0">
-            <img src="https://images.unsplash.com/photo-1564121211835-e88c852648ab?auto=format&fit=crop&q=80&w=2000" 
-                 class="w-full h-full object-cover mix-blend-overlay opacity-30 scale-105 animate-[pulse_20s_ease-in-out_infinite]" 
-                 alt="Masjid Interior Architecture">
-            <div class="absolute inset-0 bg-gradient-to-r from-primary via-primary/90 to-transparent"></div>
+    <!-- Hero Section -->
+    <section id="home" class="relative min-h-screen flex items-center pt-20 hero-pattern overflow-hidden">
+        <div class="absolute inset-0 opacity-20">
+            <img src="image-3-shuhada_orig.jpg" class="w-full h-full object-cover grayscale" alt="Shaheed Bilal Masjid Concept">
         </div>
-
-        <div class="max-w-7xl mx-auto px-6 lg:px-12 relative z-10 py-24 w-full">
-            <div class="grid lg:grid-cols-12 gap-12 lg:gap-20 items-center">
-                
-                <div class="lg:col-span-7 text-white reveal">
-                    <div class="inline-flex items-center space-x-2 bg-white/10 backdrop-blur-md border border-white/20 px-4 py-2 rounded-full mb-8 shadow-xl">
-                        <span class="relative flex h-2.5 w-2.5">
-                          <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-accent opacity-75"></span>
-                          <span class="relative inline-flex rounded-full h-2.5 w-2.5 bg-accent"></span>
-                        </span>
-                        <span class="text-[10px] font-bold uppercase tracking-widest text-white">Masjid Construction in Progress</span>
+        <div class="absolute inset-0 bg-gradient-to-b from-primary/50 to-primary"></div>
+        <div class="max-w-7xl mx-auto px-6 lg:px-12 relative z-10 py-24">
+            <div class="grid lg:grid-cols-2 gap-20 items-center">
+                <div class="text-white reveal">
+                    <div class="inline-flex items-center space-x-2 bg-white/10 border border-white/20 px-4 py-1.5 rounded-full mb-8">
+                        <span class="w-2 h-2 bg-accent rounded-full animate-pulse"></span>
+                        <span class="text-[10px] font-bold uppercase tracking-widest text-accent">Masjid Construction in Progress</span>
                     </div>
-                    
-                    <h1 class="text-5xl md:text-7xl lg:text-8xl font-serif leading-[1.05] mb-8 drop-shadow-2xl">
+                    <h1 class="text-5xl md:text-7xl font-serif leading-[1.05] mb-8">
                         A Sanctuary <br>of <span class="italic text-accent">Faith</span> & <span class="italic text-accent">Peace</span>
                     </h1>
-                    
-                    <p class="text-lg md:text-xl text-gray-200 mb-10 max-w-xl leading-relaxed font-light drop-shadow-md">
-                        Serving the Dublin 15 area with dedication. Help us build the legacy of the Shaheed Bilal Masjid—a home for prayer, education, and community growth.
+                    <p class="text-lg md:text-xl text-gray-300 mb-10 max-w-lg leading-relaxed font-light">
+                        Located at Warrenstown House, Dublin 15. Help us build the legacy of the Shaheed Bilal Masjid—a home for prayer, education, and community growth.
                     </p>
                     
                     <div class="flex flex-wrap gap-5">
-                        <a href="#donate" class="btn-gradient px-10 py-4 rounded-2xl font-bold text-lg shadow-[0_10px_30px_rgba(173,139,58,0.4)] flex items-center group">
-                            Support Our Project 
-                            <i data-lucide="arrow-right" class="ml-2 w-5 h-5 group-hover:translate-x-1 transition-transform"></i>
-                        </a>
-                        <a href="#services" class="bg-white/10 backdrop-blur-md border border-white/20 px-10 py-4 rounded-2xl font-bold text-lg hover:bg-white/20 transition flex items-center">
-                            View Services
-                        </a>
+                        <a href="#donate" class="btn-gradient px-10 py-4 rounded-2xl font-bold text-lg shadow-2xl">Support Our Project</a>
+                        <a href="#services" class="bg-white/10 backdrop-blur-md border border-white/20 px-10 py-4 rounded-2xl font-bold text-lg hover:bg-white/20 transition">View Services</a>
                     </div>
                 </div>
 
-                <div class="lg:col-span-5 reveal reveal-delay-2">
-                    <div class="bg-white/10 backdrop-blur-xl border border-white/20 p-8 md:p-10 rounded-[2.5rem] text-white shadow-2xl relative overflow-hidden">
-                        <!-- Decorative glow -->
-                        <div class="absolute -top-20 -right-20 w-40 h-40 bg-accent/40 rounded-full blur-[50px]"></div>
-                        
-                        <div class="relative z-10">
-                            <div class="flex justify-between items-center mb-8">
-                                <h3 class="text-2xl font-serif">Upcoming: Eid Al-Fitr</h3>
-                                <div class="bg-accent/20 text-accent px-3 py-1 rounded-lg text-xs font-bold uppercase tracking-widest border border-accent/30">
-                                    Mar 20, 2026
-                                </div>
-                            </div>
-                            <div class="space-y-4">
-                                <div class="flex items-center justify-between p-5 rounded-2xl bg-white/5 border border-white/10 hover:bg-white/10 transition">
-                                    <span class="text-gray-300 font-medium flex items-center">
-                                        <i data-lucide="sun" class="w-4 h-4 mr-3 text-accent"></i> 1st Eid Prayer
-                                    </span>
-                                    <span class="text-2xl font-bold">9:45 AM</span>
-                                </div>
-                                <div class="flex items-center justify-between p-5 rounded-2xl bg-white/5 border border-white/10 hover:bg-white/10 transition">
-                                    <span class="text-gray-300 font-medium flex items-center">
-                                        <i data-lucide="sun-dim" class="w-4 h-4 mr-3 text-accent"></i> 2nd Eid Prayer
-                                    </span>
-                                    <span class="text-2xl font-bold">11:15 AM</span>
-                                </div>
-                                <div class="pt-6 mt-6 border-t border-white/10">
-                                    <div class="flex items-start space-x-3 text-sm text-gray-300 leading-relaxed bg-primary/40 p-4 rounded-xl border border-primary-light">
-                                        <i data-lucide="info" class="w-5 h-5 text-accent shrink-0 mt-0.5"></i>
-                                        <p>Paid parking available at TU Dublin. Community BBQ & food sale will follow the prayers.</p>
-                                    </div>
-                                </div>
+                <!-- Featured News/Timetable -->
+                <div class="bg-white/5 backdrop-blur-xl border border-white/10 p-8 md:p-12 rounded-[2.5rem] text-white reveal">
+                    <div class="flex justify-between items-center mb-8">
+                        <h3 class="text-xl font-bold">Daily Activities</h3>
+                        <span class="text-xs font-bold text-accent uppercase tracking-widest">Warrenstown</span>
+                    </div>
+                    <div class="space-y-6">
+                        <div class="flex items-center justify-between p-4 rounded-2xl bg-white/5 border border-white/5">
+                            <span class="text-gray-400 font-medium">Daily Dars</span>
+                            <span class="text-lg font-bold">After Maghrib</span>
+                        </div>
+                        <div class="flex items-center justify-between p-4 rounded-2xl bg-white/5 border border-white/5">
+                            <span class="text-gray-400 font-medium">Jummah Khutba</span>
+                            <span class="text-lg font-bold">1:45 PM</span>
+                        </div>
+                        <div class="pt-4 border-t border-white/10">
+                            <div class="flex items-center space-x-3 text-sm text-gray-400 leading-relaxed">
+                                <i data-lucide="info" class="w-6 h-6 text-accent flex-shrink-0"></i>
+                                <p>"Whoever builds a house for Allah, Allah will build for him a house in Paradise."</p>
                             </div>
                         </div>
                     </div>
@@ -229,255 +168,195 @@
         </div>
     </section>
 
-    <section class="max-w-7xl mx-auto px-6 lg:px-12 -mt-16 relative z-20 reveal">
-        <div class="bg-white rounded-[2.5rem] shadow-[0_20px_50px_-12px_rgba(0,0,0,0.1)] border border-gray-100 overflow-hidden flex flex-col">
-            <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 divide-x divide-gray-50 flex-1">
-                <div class="col-span-2 md:col-span-3 lg:col-span-1 p-8 bg-gray-50 flex flex-col justify-center text-center lg:text-left border-b lg:border-b-0 relative overflow-hidden">
-                    <div class="absolute -right-6 -bottom-6 opacity-5">
-                        <i data-lucide="clock" class="w-32 h-32"></i>
-                    </div>
-                    <h3 class="font-serif text-2xl text-primary leading-tight relative z-10">Daily Prayers</h3>
-                    <p class="text-[9px] text-gray-500 font-bold uppercase tracking-widest mt-2 relative z-10">Blanchardstown, D15</p>
+    <!-- Daily Prayer Dashboard (Updated for May 2026) -->
+    <section class="max-w-7xl mx-auto px-6 lg:px-12 -mt-20 relative z-20 reveal">
+        <div class="bg-white rounded-[2.5rem] shadow-2xl border border-gray-100 overflow-hidden">
+            <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 divide-x divide-gray-50">
+                <div class="col-span-2 md:col-span-3 lg:col-span-1 p-8 bg-gray-50 flex flex-col justify-center text-center lg:text-left border-b lg:border-b-0">
+                    <h3 class="font-serif text-2xl text-primary leading-tight">May 2026</h3>
+                    <p class="text-[9px] text-gray-400 font-bold uppercase tracking-widest mt-1">Jamaat Timetable</p>
                 </div>
-                
-                <div class="p-6 md:p-8 text-center hover:bg-gray-50 transition-colors group">
-                    <span class="block text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-2 group-hover:text-primary transition-colors">Fajr</span>
-                    <span class="text-xl md:text-2xl font-bold text-primary">05:12 AM</span>
+                <div class="p-8 text-center hover:bg-gray-50 transition-colors">
+                    <span class="block text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-2">Fajr</span>
+                    <span class="text-2xl font-bold text-primary">04:45</span>
                 </div>
-                <div class="p-6 md:p-8 text-center hover:bg-gray-50 transition-colors group">
-                    <span class="block text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-2 group-hover:text-primary transition-colors">Dhuhr</span>
-                    <span class="text-xl md:text-2xl font-bold text-primary">01:25 PM</span>
+                <div class="p-8 text-center hover:bg-gray-50 transition-colors">
+                    <span class="block text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-2">Dhuhr</span>
+                    <span class="text-2xl font-bold text-primary">13:50</span>
                 </div>
-                <!-- Highlighted Active Prayer -->
-                <div class="p-6 md:p-8 text-center bg-accent/5 border-b-4 border-accent relative">
-                    <div class="absolute top-2 right-2 flex space-x-1">
-                        <span class="relative flex h-2 w-2"><span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-accent opacity-75"></span><span class="relative inline-flex rounded-full h-2 w-2 bg-accent"></span></span>
-                    </div>
-                    <span class="block text-[10px] font-bold text-accent uppercase tracking-widest mb-2">Asr (Next)</span>
-                    <span class="text-xl md:text-2xl font-bold text-primary">05:10 PM</span>
+                <div class="p-8 text-center hover:bg-gray-50 transition-colors relative">
+                    <div class="absolute inset-0 bg-accent/5 pointer-events-none"></div>
+                    <span class="block text-[10px] font-bold text-accent uppercase tracking-widest mb-2">Asr</span>
+                    <span class="text-2xl font-bold text-primary">18:10</span>
                 </div>
-                <div class="p-6 md:p-8 text-center hover:bg-gray-50 transition-colors group">
-                    <span class="block text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-2 group-hover:text-primary transition-colors">Maghrib</span>
-                    <span class="text-xl md:text-2xl font-bold text-primary">08:45 PM</span>
+                <div class="p-8 text-center hover:bg-gray-50 transition-colors">
+                    <span class="block text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-2">Maghrib</span>
+                    <span class="text-2xl font-bold text-primary">21:00</span>
                 </div>
-                <div class="p-6 md:p-8 text-center hover:bg-gray-50 transition-colors group">
-                    <span class="block text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-2 group-hover:text-primary transition-colors">Isha</span>
-                    <span class="text-xl md:text-2xl font-bold text-primary">10:15 PM</span>
+                <div class="p-8 text-center hover:bg-gray-50 transition-colors">
+                    <span class="block text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-2">Isha</span>
+                    <span class="text-2xl font-bold text-primary">22:40</span>
                 </div>
             </div>
             <!-- Jummah Info Bar -->
-            <div class="bg-primary text-white py-5 px-8 md:px-12 flex flex-col md:flex-row justify-between items-center gap-4">
-                <div class="flex items-center space-x-3 text-center md:text-left">
-                    <div class="bg-accent/20 p-2 rounded-lg hidden md:block">
-                        <i data-lucide="users" class="w-5 h-5 text-accent"></i>
-                    </div>
-                    <span class="text-sm font-medium tracking-wide">
-                        <strong class="text-accent">Jummah (Friday):</strong> 1st Khutba @ 1:45 PM <span class="mx-2 text-white/30">|</span> 2nd Khutba @ 2:40 PM
-                    </span>
+            <div class="bg-primary text-white py-6 px-12 flex flex-col md:flex-row justify-between items-center gap-4">
+                <div class="flex items-center space-x-4">
+                    <i data-lucide="bell" class="w-5 h-5 text-accent"></i>
+                    <span class="text-sm font-semibold tracking-wide">Separate prayer rooms and facilities are available for sisters.</span>
                 </div>
-                <div class="text-[10px] font-bold uppercase tracking-[0.2em] text-accent bg-accent/10 px-4 py-2 rounded-full border border-accent/20">
-                    Open for Brothers & Sisters
-                </div>
+                <div class="text-[10px] font-bold uppercase tracking-[0.2em] text-accent">Masjid Open for Brothers & Sisters</div>
             </div>
         </div>
     </section>
 
-    <section id="about" class="py-24 md:py-32 px-6 lg:px-12 overflow-hidden">
+    <!-- Foundation Story -->
+    <section id="about" class="py-32 px-6 lg:px-12 reveal">
         <div class="max-w-7xl mx-auto">
-            <div class="flex flex-col lg:flex-row items-center gap-16 lg:gap-24">
-                <div class="lg:w-1/2 reveal">
-                    <div class="flex items-center space-x-4 mb-6">
-                        <div class="w-12 h-[2px] bg-accent"></div>
-                        <span class="text-accent font-bold uppercase tracking-[0.3em] text-[10px]">Our Legacy</span>
-                    </div>
-                    <h2 class="text-4xl md:text-5xl font-serif text-primary leading-tight mb-8">Nurturing Spiritual Growth in Dublin Since 2008</h2>
+            <div class="flex flex-col lg:flex-row items-center gap-20">
+                <div class="lg:w-1/2">
+                    <span class="text-accent font-bold uppercase tracking-[0.4em] text-[10px] mb-4 block">Our Legacy</span>
+                    <h2 class="text-4xl md:text-5xl font-serif text-primary leading-tight mb-8">Nurturing Spiritual Growth in Dublin</h2>
                     <div class="space-y-6 text-gray-600 leading-relaxed text-lg font-light">
                         <p>
-                            Originally established as the <span class="text-primary font-semibold border-b border-accent/30 pb-0.5">Dawah Community Centre</span>, the Shuhada Foundation has grown into a vital hub for the local Muslim community in Dublin 15.
+                            Originally established as the <span class="text-primary font-bold">Dawah Community Centre</span>, the Shuhada Foundation has grown into a vital hub for the local Muslim community in Dublin 15.
                         </p>
                         <p>
-                            Operating under the Irish Islamic Dawah and Education Trust (CHY 18219), we focus on providing a harmonious environment for worship, youth education, and community welfare, building a foundation for future generations.
+                            Operating under the Irish Islamic Dawah and Education Trust (CHY 18219), we focus on providing a harmonious environment for worship, youth education at the Shahida Zainab School, and community welfare.
                         </p>
                     </div>
                     
-                    <div class="mt-12 grid grid-cols-2 gap-8 border-t border-gray-200 pt-10">
+                    <div class="mt-12 grid grid-cols-2 gap-12 border-t border-gray-100 pt-12">
                         <div>
-                            <div class="flex items-baseline space-x-1 mb-2">
-                                <span class="text-4xl font-serif text-primary">200</span>
-                                <span class="text-2xl font-serif text-accent">+</span>
-                            </div>
-                            <div class="text-[10px] font-bold text-gray-500 uppercase tracking-widest flex items-center">
-                                <i data-lucide="car" class="w-3 h-3 mr-1.5 text-accent"></i> Parking Spaces
-                            </div>
+                            <div class="text-4xl font-serif text-accent mb-1">150+</div>
+                            <div class="text-[10px] font-bold text-primary uppercase tracking-widest">Car Parking Spaces</div>
                         </div>
                         <div>
-                            <div class="flex items-baseline space-x-1 mb-2">
-                                <span class="text-4xl font-serif text-primary">Daily</span>
-                            </div>
-                            <div class="text-[10px] font-bold text-gray-500 uppercase tracking-widest flex items-center">
-                                <i data-lucide="book-open" class="w-3 h-3 mr-1.5 text-accent"></i> Hadith & Qur'an Dars
-                            </div>
+                            <div class="text-4xl font-serif text-accent mb-1">Daily</div>
+                            <div class="text-[10px] font-bold text-primary uppercase tracking-widest">Hadith & Tafseer Dars</div>
                         </div>
                     </div>
                 </div>
-                
-                <div class="lg:w-1/2 relative reveal reveal-delay-2">
-                    <!-- Image Placeholder -->
-                    <div class="rounded-[2.5rem] overflow-hidden shadow-2xl bg-white relative aspect-[4/3] group">
-                        <img src="https://images.unsplash.com/photo-1584551246679-0daf3d275d05?auto=format&fit=crop&q=80&w=1200" 
-                             class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" 
-                             alt="Masjid Architecture Details">
-                        <div class="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+                <div class="lg:w-1/2 relative">
+                    <div class="rounded-[3.5rem] overflow-hidden shadow-2xl bg-white flex items-center justify-center h-[500px]">
+                        <img src="1393181509.jpg" class="w-full h-full object-cover" alt="Warrenstown House Property">
                     </div>
-                    
-                    <!-- Floating Quote Card -->
-                    <div class="absolute -bottom-8 -left-4 md:-left-12 bg-white p-8 md:p-10 rounded-[2rem] shadow-[0_20px_40px_-15px_rgba(0,0,0,0.1)] border border-gray-50 max-w-[300px] transform hover:-translate-y-2 transition-transform duration-300">
-                        <div class="bg-accent/10 w-12 h-12 rounded-full flex items-center justify-center mb-6">
-                            <i data-lucide="quote" class="text-accent w-5 h-5"></i>
-                        </div>
-                        <p class="text-primary font-medium italic leading-relaxed">"Whoever builds a house for Allah, Allah will build for him a house in Paradise."</p>
-                        <p class="text-[9px] text-gray-400 mt-5 uppercase font-bold tracking-[0.2em]">— Sahih Al-Bukhari</p>
+                    <div class="absolute -bottom-8 -left-8 bg-white p-10 rounded-[2.5rem] shadow-2xl border border-gray-50 max-w-xs">
+                        <i data-lucide="map-pin" class="text-accent w-8 h-8 mb-4"></i>
+                        <p class="text-primary font-medium italic leading-relaxed">Warrenstown House, Blanchardstown Road North.</p>
+                        <p class="text-[10px] text-gray-400 mt-4 uppercase font-bold tracking-widest">Dublin 15</p>
                     </div>
                 </div>
             </div>
         </div>
     </section>
 
-    <section id="services" class="py-24 md:py-32 bg-white px-6 lg:px-12 border-t border-gray-100">
+    <!-- Service Grid -->
+    <section id="services" class="py-32 bg-white px-6 lg:px-12 reveal">
         <div class="max-w-7xl mx-auto">
-            <div class="text-center mb-20 reveal">
+            <div class="text-center mb-24">
                 <h2 class="text-4xl md:text-5xl font-serif text-primary mb-6">Community Services</h2>
-                <div class="w-20 h-1 bg-accent mx-auto rounded-full opacity-80"></div>
-                <p class="mt-6 text-gray-500 max-w-2xl mx-auto font-light">Dedicated to facilitating comprehensive support for the spiritual, educational, and social needs of our diverse community.</p>
+                <div class="w-16 h-1.5 bg-accent mx-auto rounded-full"></div>
             </div>
 
             <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
-                <!-- Service 1 -->
-                <div class="service-card bg-[#FBF9F1] border border-gray-100/50 p-10 rounded-[2.5rem] reveal reveal-delay-1">
-                    <div class="w-16 h-16 bg-white rounded-2xl flex items-center justify-center mb-8 shadow-sm border border-gray-100 text-primary">
-                        <i data-lucide="users" class="w-7 h-7"></i>
+                <div class="service-card bg-[#FBF9F1] p-10 rounded-[3rem]">
+                    <div class="w-14 h-14 bg-white rounded-2xl flex items-center justify-center mb-8 shadow-sm">
+                        <i data-lucide="book-open" class="text-primary w-6 h-6"></i>
                     </div>
-                    <h3 class="text-xl font-bold mb-4 text-primary">Daily Prayers</h3>
-                    <p class="text-gray-500 text-sm leading-relaxed">Full and unrestricted access for brothers and sisters to the five daily prayers and Friday Jummah congregations.</p>
+                    <h3 class="text-xl font-bold mb-4">Shahida Zainab School</h3>
+                    <p class="text-gray-500 text-sm leading-relaxed">Dublin's first independent private Islamic primary school, nurturing academic excellence and faith for local youth.</p>
                 </div>
 
-                <!-- Service 2 -->
-                <div class="service-card bg-[#FBF9F1] border border-gray-100/50 p-10 rounded-[2.5rem] reveal reveal-delay-2">
-                    <div class="w-16 h-16 bg-white rounded-2xl flex items-center justify-center mb-8 shadow-sm border border-gray-100 text-primary">
-                        <i data-lucide="trophy" class="w-7 h-7"></i>
+                <div class="service-card bg-[#FBF9F1] p-10 rounded-[3rem]">
+                    <div class="w-14 h-14 bg-white rounded-2xl flex items-center justify-center mb-8 shadow-sm">
+                        <i data-lucide="shopping-bag" class="text-primary w-6 h-6"></i>
                     </div>
-                    <h3 class="text-xl font-bold mb-4 text-primary">Sports Field</h3>
-                    <p class="text-gray-500 text-sm leading-relaxed">Spacious outdoor facilities regularly utilized for community football, cricket, and engaging youth activities.</p>
+                    <h3 class="text-xl font-bold mb-4">Halal Shop</h3>
+                    <p class="text-gray-500 text-sm leading-relaxed">A fully operational on-site Halal shop providing essentials for the community.</p>
                 </div>
 
-                <!-- Service 3 -->
-                <div class="service-card bg-[#FBF9F1] border border-gray-100/50 p-10 rounded-[2.5rem] reveal reveal-delay-3">
-                    <div class="w-16 h-16 bg-white rounded-2xl flex items-center justify-center mb-8 shadow-sm border border-gray-100 text-primary">
-                        <i data-lucide="parking-circle" class="w-7 h-7"></i>
+                <div class="service-card bg-[#FBF9F1] p-10 rounded-[3rem]">
+                    <div class="w-14 h-14 bg-white rounded-2xl flex items-center justify-center mb-8 shadow-sm">
+                        <i data-lucide="trophy" class="text-primary w-6 h-6"></i>
                     </div>
-                    <h3 class="text-xl font-bold mb-4 text-primary">On-site Parking</h3>
-                    <p class="text-gray-500 text-sm leading-relaxed">Extensive and secure parking facilities boasting a 200-car capacity to accommodate large gatherings safely.</p>
+                    <h3 class="text-xl font-bold mb-4">Sports Facilities</h3>
+                    <p class="text-gray-500 text-sm leading-relaxed">Future all-weather pitch and current sports facilities for football and cricket.</p>
                 </div>
 
-                <!-- Service 4 -->
-                <div class="service-card bg-[#FBF9F1] border border-gray-100/50 p-10 rounded-[2.5rem] reveal reveal-delay-1">
-                    <div class="w-16 h-16 bg-white rounded-2xl flex items-center justify-center mb-8 shadow-sm border border-gray-100 text-primary">
-                        <i data-lucide="party-popper" class="w-7 h-7"></i>
+                <div class="service-card bg-[#FBF9F1] p-10 rounded-[3rem]">
+                    <div class="w-14 h-14 bg-white rounded-2xl flex items-center justify-center mb-8 shadow-sm">
+                        <i data-lucide="users" class="text-primary w-6 h-6"></i>
                     </div>
-                    <h3 class="text-xl font-bold mb-4 text-primary">Social Events</h3>
-                    <p class="text-gray-500 text-sm leading-relaxed">Hosting regular community BBQs, bouncy castles, bazaars, and inclusive family social gatherings.</p>
+                    <h3 class="text-xl font-bold mb-4">Community Events</h3>
+                    <p class="text-gray-500 text-sm leading-relaxed">Regular family open days, ladies bazaars, Eid functions, and annual youth summer camps.</p>
                 </div>
             </div>
         </div>
     </section>
 
-    <section id="madrassa" class="py-24 md:py-32 px-6 lg:px-12 bg-gray-50/80">
+    <!-- Madrassa Schedule Hub -->
+    <section id="madrassa" class="py-32 px-6 lg:px-12 bg-gray-50 reveal">
         <div class="max-w-7xl mx-auto">
-            <div class="grid lg:grid-cols-12 gap-12 lg:gap-16">
-                <!-- Info Column -->
-                <div class="lg:col-span-4 reveal">
-                    <div class="flex items-center space-x-4 mb-6">
-                        <div class="w-12 h-[2px] bg-accent"></div>
-                        <span class="text-accent font-bold uppercase tracking-[0.3em] text-[10px]">Education</span>
-                    </div>
-                    <h2 class="text-4xl md:text-5xl font-serif text-primary leading-tight mb-6">Islamic Learning for the Youth</h2>
-                    <p class="text-gray-600 mb-10 leading-relaxed font-light">We offer comprehensive religious education through our structured weekday and weekend Madrassa programs, including dedicated Hifz classes tailored for different ages.</p>
-                    
-                    <div class="bg-primary p-8 rounded-[2rem] text-white shadow-xl relative overflow-hidden">
-                        <div class="absolute -right-4 -bottom-4 opacity-10"><i data-lucide="book-heart" class="w-32 h-32"></i></div>
-                        <h4 class="font-bold mb-6 flex items-center text-lg relative z-10">
-                            <i data-lucide="heart" class="text-accent mr-3 w-5 h-5"></i> Ladies Programmes
-                        </h4>
-                        <ul class="space-y-4 text-sm text-gray-200 relative z-10">
-                            <li class="flex justify-between items-center border-b border-white/10 pb-3">
-                                <span>Girls Halaqa</span> 
-                                <span class="bg-white/10 px-3 py-1 rounded-full text-xs font-semibold">Sat 2:00 PM</span>
-                            </li>
-                            <li class="flex justify-between items-center pt-1">
-                                <span>Ladies Tafsir</span> 
-                                <span class="bg-white/10 px-3 py-1 rounded-full text-xs font-semibold">Sat 2:00 PM</span>
-                            </li>
+            <div class="grid lg:grid-cols-3 gap-16">
+                <div class="lg:col-span-1">
+                    <span class="text-accent font-bold uppercase tracking-[0.4em] text-[10px] mb-4 block">Education</span>
+                    <h2 class="text-4xl font-serif text-primary leading-tight mb-8">Islamic Learning for the Youth</h2>
+                    <p class="text-gray-600 mb-10 leading-relaxed font-light">We offer comprehensive religious education through our weekday and weekend Madrassa programs for children aged 5 and above, including dedicated Arabic classes and Qiraat preparation.</p>
+                    <div class="bg-primary p-8 rounded-[2.5rem] text-white shadow-xl">
+                        <h4 class="font-bold mb-4 flex items-center"><i data-lucide="heart" class="text-accent mr-2 w-5 h-5"></i> Adults & Ladies</h4>
+                        <ul class="space-y-4 text-sm text-gray-300">
+                            <li class="flex justify-between border-b border-white/10 pb-2"><span>Ladies Quran & Arabic</span> <span>Thu/Fri 10:30am</span></li>
+                            <li class="flex justify-between border-b border-white/10 pb-2"><span>Adult Arabic Classes</span> <span>Fri/Sat Eves</span></li>
+                            <li class="flex justify-between"><span>Tafseer Lecture</span> <span>Daily, Maghrib</span></li>
                         </ul>
                     </div>
                 </div>
 
-                <!-- Schedule Columns -->
-                <div class="lg:col-span-8 grid md:grid-cols-2 gap-8">
-                    <!-- Weekdays Card -->
-                    <div class="bg-white p-8 md:p-10 rounded-[2.5rem] shadow-lg border border-gray-100 reveal reveal-delay-1 hover:shadow-xl transition-shadow">
-                        <div class="flex items-center justify-between mb-8 border-b border-gray-100 pb-5">
-                            <h3 class="text-2xl font-bold text-primary">Weekdays</h3>
-                            <i data-lucide="calendar-days" class="text-gray-300 w-6 h-6"></i>
-                        </div>
+                <div class="lg:col-span-2 grid md:grid-cols-2 gap-8">
+                    <!-- Weekdays -->
+                    <div class="bg-white p-10 rounded-[3rem] shadow-xl border border-gray-100 hover:shadow-2xl transition-shadow">
+                        <h3 class="text-2xl font-bold text-primary mb-8 border-b border-gray-100 pb-4">Weekdays</h3>
                         <div class="space-y-8">
                             <div>
-                                <h4 class="font-bold text-accent text-[10px] uppercase tracking-widest mb-3">Wed, Thu, Fri</h4>
-                                <div class="flex justify-between items-center bg-gray-50/80 p-5 rounded-2xl border border-gray-100 hover:border-gray-200 transition-colors">
-                                    <div class="flex items-center space-x-3">
-                                        <div class="w-2 h-2 rounded-full bg-primary"></div>
-                                        <span class="text-sm font-semibold text-gray-800">Boys & Girls Madrassa</span>
-                                    </div>
-                                    <span class="text-primary font-bold bg-white px-3 py-1 rounded-lg shadow-sm text-sm">5:00 - 7:00 PM</span>
+                                <h4 class="font-bold text-accent text-xs uppercase tracking-widest mb-3">Wed, Thu, Fri</h4>
+                                <div class="flex justify-between items-center bg-gray-50 p-4 rounded-2xl border border-gray-100">
+                                    <span class="text-sm font-semibold">Boys & Girls Madrassa</span>
+                                    <span class="text-primary font-bold">4:15 - 6:00 PM</span>
                                 </div>
                             </div>
                             <div>
-                                <h4 class="font-bold text-accent text-[10px] uppercase tracking-widest mb-3">Daily</h4>
-                                <div class="bg-gray-50/80 p-5 rounded-2xl border border-gray-100 hover:border-gray-200 transition-colors flex items-center justify-between">
-                                    <div class="flex items-center space-x-3">
-                                        <div class="w-2 h-2 rounded-full bg-accent"></div>
-                                        <span class="text-sm font-semibold text-gray-800">Hadith & Qur'an Dars</span>
-                                    </div>
-                                    <span class="text-gray-500 text-xs font-medium">After Maghrib</span>
+                                <h4 class="font-bold text-accent text-xs uppercase tracking-widest mb-3">Daily (After Maghrib)</h4>
+                                <div class="bg-gray-50 p-4 rounded-2xl border border-gray-100">
+                                    <span class="text-sm font-semibold">Tafseer & Sunna Dars</span>
                                 </div>
                             </div>
                         </div>
                     </div>
 
-                    <!-- Weekends Card -->
-                    <div class="bg-white p-8 md:p-10 rounded-[2.5rem] shadow-lg border border-gray-100 reveal reveal-delay-2 hover:shadow-xl transition-shadow">
-                        <div class="flex items-center justify-between mb-8 border-b border-gray-100 pb-5">
-                            <h3 class="text-2xl font-bold text-primary">Weekends</h3>
-                            <i data-lucide="calendar-heart" class="text-gray-300 w-6 h-6"></i>
-                        </div>
-                        <div class="space-y-8">
+                    <!-- Weekends -->
+                    <div class="bg-white p-10 rounded-[3rem] shadow-xl border border-gray-100 hover:shadow-2xl transition-shadow">
+                        <h3 class="text-2xl font-bold text-primary mb-8 border-b border-gray-100 pb-4">Weekends</h3>
+                        <div class="space-y-6">
                             <div>
-                                <h4 class="font-bold text-accent text-[10px] uppercase tracking-widest mb-3">Sat & Sun (Session 1)</h4>
-                                <div class="space-y-3">
-                                    <div class="flex justify-between items-center bg-gray-50/80 p-4 rounded-2xl border border-gray-100 hover:border-gray-200 transition-colors">
-                                        <span class="text-sm font-semibold text-gray-800">Boys & Girls Madrassa</span>
-                                        <span class="text-primary font-bold bg-white px-2.5 py-1 rounded-lg shadow-sm text-xs">12:00 - 2:00 PM</span>
-                                    </div>
-                                    <div class="flex justify-between items-center bg-gray-50/80 p-4 rounded-2xl border border-gray-100 hover:border-gray-200 transition-colors">
-                                        <span class="text-sm font-semibold text-gray-800">Girls Hifz Class</span>
-                                        <span class="text-primary font-bold bg-white px-2.5 py-1 rounded-lg shadow-sm text-xs">11:30 - 2:00 PM</span>
-                                    </div>
+                                <h4 class="font-bold text-accent text-xs uppercase tracking-widest mb-3">Sat & Sun (Session 1 & 2)</h4>
+                                <div class="flex justify-between items-center bg-gray-50 p-4 rounded-2xl mb-2 border border-gray-100">
+                                    <span class="text-sm font-semibold">Session 1</span>
+                                    <span class="text-primary font-bold">11:30 - 1:30 PM</span>
+                                </div>
+                                <div class="flex justify-between items-center bg-gray-50 p-4 rounded-2xl mb-2 border border-gray-100">
+                                    <span class="text-sm font-semibold">Session 2</span>
+                                    <span class="text-primary font-bold">1:30 - 3:30 PM</span>
                                 </div>
                             </div>
                             <div>
-                                <h4 class="font-bold text-accent text-[10px] uppercase tracking-widest mb-3">Sat & Sun (Session 2)</h4>
-                                <div class="flex justify-between items-center bg-gray-50/80 p-4 rounded-2xl border border-gray-100 hover:border-gray-200 transition-colors">
-                                    <span class="text-sm font-semibold text-gray-800">Boys & Girls Madrassa</span>
-                                    <span class="text-primary font-bold bg-white px-2.5 py-1 rounded-lg shadow-sm text-xs">2:00 - 4:00 PM</span>
+                                <h4 class="font-bold text-accent text-xs uppercase tracking-widest mb-3">Specialised Classes</h4>
+                                <div class="flex justify-between items-center bg-gray-50 p-4 rounded-2xl mb-2 border border-gray-100">
+                                    <span class="text-sm font-semibold">Somali Children Class</span>
+                                    <span class="text-primary font-bold">11:30 - 3:00 PM</span>
+                                </div>
+                                <div class="flex justify-between items-center bg-gray-50 p-4 rounded-2xl border border-gray-100">
+                                    <span class="text-sm font-semibold">Qiraat Tournament Prep</span>
+                                    <span class="text-primary font-bold">Seasonal</span>
                                 </div>
                             </div>
                         </div>
@@ -487,339 +366,253 @@
         </div>
     </section>
 
-    <section id="events" class="py-24 md:py-32 bg-white px-6 lg:px-12 border-t border-gray-100">
+    <!-- Past Events Hub (GALLERY SECTION) -->
+    <section id="events" class="py-32 bg-white px-6 lg:px-12 reveal">
         <div class="max-w-7xl mx-auto">
-            <div class="text-center mb-20 reveal">
+            <div class="text-center mb-24">
                 <span class="text-accent font-bold uppercase tracking-[0.4em] text-[10px] mb-4 block">Our Vibrant Community</span>
-                <h2 class="text-4xl md:text-5xl font-serif text-primary mb-6">Past Events & Programmes</h2>
-                <div class="w-20 h-1 bg-accent mx-auto rounded-full opacity-80"></div>
+                <h2 class="text-4xl md:text-5xl font-serif text-primary mb-6">Events & Programmes</h2>
+                <div class="w-16 h-1.5 bg-accent mx-auto rounded-full"></div>
             </div>
 
-            <div class="grid md:grid-cols-3 gap-8 md:gap-10">
-                <!-- Gallery Item 1 -->
-                <div class="bg-[#FBF9F1] rounded-[2.5rem] overflow-hidden shadow-lg border border-gray-100 group flex flex-col reveal reveal-delay-1 hover:shadow-2xl transition-all duration-300">
-                    <div class="h-64 overflow-hidden bg-gray-200 relative">
-                        <img src="https://images.unsplash.com/photo-1542838686-37ed7a7ef3f2?auto=format&fit=crop&q=80&w=800" 
-                             alt="Community Gathering" 
-                             class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700">
-                        <div class="absolute inset-0 bg-black/10 group-hover:bg-transparent transition-colors duration-300"></div>
+            <div class="grid md:grid-cols-3 gap-10">
+                <!-- Event 1 -->
+                <div class="bg-[#FBF9F1] rounded-[3rem] overflow-hidden shadow-xl border border-gray-50 group flex flex-col">
+                    <div class="h-64 overflow-hidden bg-white p-4 flex items-center justify-center">
+                        <img src="_4835122_orig.jpg" alt="Family Days & BBQs" class="w-full h-full object-cover rounded-3xl group-hover:scale-105 transition-transform duration-500">
                     </div>
-                    <div class="p-8 flex-1 flex flex-col bg-white">
-                        <div class="flex justify-between items-start mb-4">
-                            <h3 class="text-xl font-bold text-primary">Ladies Pre-Eid Bazaar</h3>
-                            <span class="bg-gray-100 text-gray-500 text-[10px] px-2 py-1 rounded uppercase font-bold">Community</span>
-                        </div>
-                        <p class="text-gray-500 text-sm leading-relaxed flex-1 font-light">A wonderful community gathering featuring food, henna, and children's activities to support the Shaheeda Zainab Primary School.</p>
+                    <div class="p-10 flex-1 flex flex-col border-t border-gray-100">
+                        <h3 class="text-xl font-bold text-primary mb-4">Family Days & BBQs</h3>
+                        <p class="text-gray-500 text-sm leading-relaxed flex-1">Regular community gatherings bringing brothers and sisters together for food, outdoor activities, and bonding.</p>
                     </div>
                 </div>
 
-                <!-- Gallery Item 2 -->
-                <div class="bg-[#FBF9F1] rounded-[2.5rem] overflow-hidden shadow-lg border border-gray-100 group flex flex-col reveal reveal-delay-2 hover:shadow-2xl transition-all duration-300">
-                    <div class="h-64 overflow-hidden bg-gray-200 relative">
-                        <img src="https://images.unsplash.com/photo-1511632765486-a01980e01a18?auto=format&fit=crop&q=80&w=800" 
-                             alt="Youth Activities" 
-                             class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700">
-                        <div class="absolute inset-0 bg-black/10 group-hover:bg-transparent transition-colors duration-300"></div>
+                <!-- Event 2 -->
+                <div class="bg-[#FBF9F1] rounded-[3rem] overflow-hidden shadow-xl border border-gray-50 group flex flex-col">
+                    <div class="h-64 overflow-hidden bg-white p-4 flex items-center justify-center">
+                        <img src="image-1-shuhada_orig.jpg" alt="Masjid Project Exhibition" class="max-w-full max-h-full object-contain group-hover:scale-105 transition-transform duration-500">
                     </div>
-                    <div class="p-8 flex-1 flex flex-col bg-white">
-                        <div class="flex justify-between items-start mb-4">
-                            <h3 class="text-xl font-bold text-primary">Youth Summer Camp</h3>
-                            <span class="bg-gray-100 text-gray-500 text-[10px] px-2 py-1 rounded uppercase font-bold">Youth</span>
-                        </div>
-                        <p class="text-gray-500 text-sm leading-relaxed flex-1 font-light">Engaging boys and girls with Quran, arts and crafts, sports, and valuable Islamic teachings during the school holidays.</p>
+                    <div class="p-10 flex-1 flex flex-col border-t border-gray-100">
+                        <h3 class="text-xl font-bold text-primary mb-4">Masjid Project Showcases</h3>
+                        <p class="text-gray-500 text-sm leading-relaxed flex-1">Presenting the 3D models and future vision of the Shaheed Bilal Masjid complex to our community members.</p>
                     </div>
                 </div>
 
-                <!-- Gallery Item 3 -->
-                <div class="bg-[#FBF9F1] rounded-[2.5rem] overflow-hidden shadow-lg border border-gray-100 group flex flex-col reveal reveal-delay-3 hover:shadow-2xl transition-all duration-300">
-                    <div class="h-64 overflow-hidden bg-gray-200 relative">
-                        <img src="https://images.unsplash.com/photo-1585036156171-384164a8c675?auto=format&fit=crop&q=80&w=800" 
-                             alt="Quran Reading" 
-                             class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700">
-                        <div class="absolute inset-0 bg-black/10 group-hover:bg-transparent transition-colors duration-300"></div>
+                <!-- Event 3 -->
+                <div class="bg-[#FBF9F1] rounded-[3rem] overflow-hidden shadow-xl border border-gray-50 group flex flex-col">
+                    <div class="h-64 overflow-hidden bg-primary/5 p-4 flex items-center justify-center">
+                        <i data-lucide="mic" class="w-20 h-20 text-accent opacity-50 group-hover:scale-110 transition-transform"></i>
                     </div>
-                    <div class="p-8 flex-1 flex flex-col bg-white">
-                        <div class="flex justify-between items-start mb-4">
-                            <h3 class="text-xl font-bold text-primary">Tajweed Classes</h3>
-                            <span class="bg-gray-100 text-gray-500 text-[10px] px-2 py-1 rounded uppercase font-bold">Education</span>
-                        </div>
-                        <p class="text-gray-500 text-sm leading-relaxed flex-1 font-light">Dedicated classes for brothers to perfect their Quranic recitation under the guidance of Molana Habib Ur Rahman.</p>
+                    <div class="p-10 flex-1 flex flex-col border-t border-gray-100">
+                        <h3 class="text-xl font-bold text-primary mb-4">Qiraat Competitions & Lectures</h3>
+                        <p class="text-gray-500 text-sm leading-relaxed flex-1">Hosting youth Qiraat tournaments and welcoming visiting scholars for insightful seminars.</p>
                     </div>
                 </div>
             </div>
         </div>
     </section>
 
-    <section id="construction" class="py-24 md:py-32 px-6 lg:px-12 bg-gray-50">
-        <div class="max-w-7xl mx-auto bg-primary rounded-[3rem] p-10 md:p-20 text-white relative overflow-hidden shadow-2xl reveal">
-            <!-- Decorative geometric shapes -->
-            <div class="absolute top-0 right-0 w-1/2 h-full bg-accent/5 -skew-x-12 translate-x-1/3"></div>
-            <div class="absolute bottom-0 left-0 w-64 h-64 bg-white/5 rounded-full blur-[80px]"></div>
-            
+    <!-- Construction Progress Section -->
+    <section id="construction" class="py-32 px-6 lg:px-12 bg-gray-50 reveal">
+        <div class="max-w-7xl mx-auto bg-primary rounded-[4rem] p-12 md:p-24 text-white relative overflow-hidden shadow-2xl">
+            <div class="absolute top-0 right-0 w-1/3 h-full bg-accent/10 -skew-x-12 translate-x-1/2"></div>
             <div class="relative z-10">
-                <div class="grid lg:grid-cols-2 gap-16 lg:gap-24 items-center">
+                <div class="grid lg:grid-cols-2 gap-20 items-center">
                     <div>
-                        <div class="inline-flex items-center space-x-2 bg-white/10 px-3 py-1.5 rounded-full mb-6">
-                            <i data-lucide="hard-hat" class="w-4 h-4 text-accent"></i>
-                            <span class="text-[10px] font-bold uppercase tracking-widest text-white">Project Update</span>
-                        </div>
-                        
-                        <h2 class="text-4xl md:text-5xl font-serif mb-6 leading-tight">Shaheed Bilal Masjid <br><span class="text-accent font-sans font-bold tracking-tight text-3xl md:text-4xl">Expansion Project</span></h2>
+                        <h2 class="text-4xl md:text-5xl font-serif mb-8 italic">Shaheed Bilal Masjid <br><span class="text-accent not-italic font-bold tracking-tight">Construction Project</span></h2>
                         <p class="text-lg text-gray-300 leading-relaxed mb-10 font-light">
-                            We are currently in the final stages of the 2023-2026 phase. This project is vital for providing sufficient prayer space and community facilities for the rapidly growing Muslim population in Dublin 15.
+                            We are currently fundraising to build the purpose-built Shaheed Bilal Masjid. This project is vital for providing sufficient prayer space and community facilities for the growing Muslim population in Dublin 15.
                         </p>
                         
                         <!-- Progress Visual -->
-                        <div class="bg-white/5 border border-white/10 p-8 rounded-[2rem] mb-10 backdrop-blur-sm">
-                            <div class="flex justify-between items-end mb-4">
-                                <span class="text-sm font-bold uppercase tracking-widest text-gray-200">Structural Phase</span>
-                                <span class="text-accent font-extrabold text-3xl tracking-tighter">78%</span>
-                            </div>
-                            <div class="w-full h-3 bg-white/10 rounded-full overflow-hidden">
-                                <div class="h-full bg-accent progress-animate rounded-full relative">
-                                    <div class="absolute inset-0 bg-white/20 animate-pulse"></div>
+                        <div class="bg-white/5 border border-white/10 p-8 rounded-[2rem] mb-12 backdrop-blur-sm">
+                            <div class="flex items-start mb-4 space-x-4">
+                                <i data-lucide="hammer" class="text-accent w-6 h-6"></i>
+                                <div>
+                                    <span class="text-sm font-bold uppercase tracking-widest block mb-1">Help Us Build</span>
+                                    <p class="text-xs text-gray-400 font-medium tracking-wide leading-relaxed">Your donations help turn these 3D models into reality. Every contribution counts as Sadaqah Jariyah.</p>
                                 </div>
-                            </div>
-                            <div class="mt-5 flex items-start space-x-3 text-xs text-gray-300">
-                                <i data-lucide="target" class="w-4 h-4 text-accent shrink-0"></i>
-                                <p class="font-medium tracking-wide leading-relaxed">Help us close the remaining gap. Every contribution counts as Sadaqah Jariyah (continuous charity).</p>
                             </div>
                         </div>
 
-                        <a href="#donate" class="btn-gradient inline-flex items-center justify-center px-10 py-4 rounded-2xl font-bold text-lg shadow-xl w-full sm:w-auto">
-                            Donate Generously <i data-lucide="heart-handshake" class="ml-2 w-5 h-5"></i>
-                        </a>
+                        <a href="#donate" class="btn-gradient inline-block px-12 py-5 rounded-2xl font-extrabold text-lg shadow-2xl">Donate Generously</a>
                     </div>
-                    
-                    <div class="aspect-[4/3] bg-black/40 rounded-[2.5rem] border border-white/10 flex items-center justify-center relative group overflow-hidden shadow-2xl">
-                        <img src="https://images.unsplash.com/photo-1503387762-592deb58ef4e?auto=format&fit=crop&q=80&w=1200" 
-                             class="w-full h-full object-cover opacity-70 group-hover:scale-105 transition-transform duration-700" 
-                             alt="Construction Update">
-                        <div class="absolute inset-0 bg-gradient-to-t from-primary/80 to-transparent"></div>
-                        <div class="absolute inset-0 flex items-center justify-center">
-                            <div class="w-20 h-20 bg-accent/90 backdrop-blur-sm rounded-full flex items-center justify-center shadow-[0_0_30px_rgba(173,139,58,0.5)] cursor-pointer hover:scale-110 transition-transform border border-white/20">
-                                <i data-lucide="play" class="text-white fill-white ml-1 w-8 h-8"></i>
-                            </div>
-                        </div>
+                    <div class="bg-white rounded-[2.5rem] border-8 border-white flex items-center justify-center relative group overflow-hidden shadow-2xl h-[400px]">
+                        <img src="masjid-perspective-1_orig.jpg" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" alt="Construction Update">
                     </div>
                 </div>
             </div>
         </div>
     </section>
 
-    <section id="donate" class="py-24 md:py-32 px-6 lg:px-12 bg-white">
-        <div class="max-w-4xl mx-auto text-center mb-16 reveal">
-            <h2 class="text-4xl md:text-5xl font-serif text-primary mb-6">Ways to Give</h2>
-            <div class="w-20 h-1 bg-accent mx-auto rounded-full opacity-80 mb-6"></div>
-            <p class="text-gray-500 font-light text-lg">Your support maintains our daily operations and ensures the continuous expansion of the House of Allah.</p>
+    <!-- Support / Bank Details -->
+    <section id="donate" class="py-32 px-6 lg:px-12 reveal">
+        <div class="max-w-4xl mx-auto text-center mb-16">
+            <h2 class="text-4xl font-serif text-primary mb-6">Ways to Give</h2>
+            <p class="text-gray-500 font-light text-lg">Your support maintains our daily operations and the expansion of the House of Allah.</p>
         </div>
 
-        <div class="max-w-5xl mx-auto grid md:grid-cols-5 gap-8 items-stretch">
-            <!-- Bank Details Card -->
-            <div class="md:col-span-3 bg-white p-10 md:p-12 rounded-[2.5rem] shadow-[0_20px_50px_-12px_rgba(0,0,0,0.1)] border border-gray-100 flex flex-col justify-between reveal reveal-delay-1 relative overflow-hidden">
-                <!-- Subtle Watermark -->
-                <i data-lucide="building-2" class="absolute -right-10 -bottom-10 w-64 h-64 text-gray-50 opacity-50 pointer-events-none"></i>
-                
-                <div class="relative z-10">
-                    <div class="flex items-center justify-between mb-10 border-b border-gray-100 pb-6">
-                        <h3 class="text-2xl font-bold text-primary flex items-center">
-                            <i data-lucide="landmark" class="mr-3 text-accent w-6 h-6"></i> Bank Transfer
-                        </h3>
-                        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/1/14/Bank_of_Ireland_logo.svg/1200px-Bank_of_Ireland_logo.svg.png" alt="Bank of Ireland" class="h-6 opacity-60 grayscale">
-                    </div>
-                    
+        <div class="max-w-5xl mx-auto grid md:grid-cols-2 gap-8 items-stretch">
+            <div class="bg-white p-12 rounded-[3.5rem] shadow-xl border border-gray-50 flex flex-col justify-between">
+                <div>
+                    <h3 class="text-2xl font-bold text-primary mb-8 flex items-center">
+                        <i data-lucide="landmark" class="mr-3 text-accent"></i> Bank Transfer
+                    </h3>
                     <div class="space-y-6">
-                        <div class="group cursor-pointer hover:bg-gray-50 p-4 -mx-4 rounded-xl transition-colors" onclick="copyText('Dawah Community Centre')">
+                        <div class="group cursor-pointer" onclick="copyText('Shuhada Foundation of Ireland')">
                             <span class="text-[10px] text-gray-400 font-bold uppercase tracking-widest block mb-1">Account Name</span>
-                            <div class="flex justify-between items-center">
-                                <span class="text-lg font-bold text-primary">Dawah Community Centre</span>
-                                <i data-lucide="copy" class="w-4 h-4 text-gray-300 opacity-0 group-hover:opacity-100 transition-opacity"></i>
-                            </div>
+                            <span class="text-lg font-bold text-primary">Shuhada Foundation of Ireland</span>
                         </div>
                         
-                        <div class="grid grid-cols-2 gap-4">
-                            <div class="group cursor-pointer bg-gray-50 p-4 rounded-2xl border border-gray-100 hover:border-accent/30 transition-colors" onclick="copyText('90-07-38')">
-                                <span class="text-[10px] text-gray-400 font-bold uppercase tracking-widest block mb-1">Sort Code</span>
-                                <div class="flex justify-between items-center">
-                                    <span class="text-xl font-mono font-bold text-gray-800">90-07-38</span>
-                                    <i data-lucide="copy" class="w-4 h-4 text-accent opacity-0 group-hover:opacity-100 transition-opacity"></i>
-                                </div>
-                            </div>
-                            <div class="group cursor-pointer bg-gray-50 p-4 rounded-2xl border border-gray-100 hover:border-accent/30 transition-colors" onclick="copyText('89753200')">
-                                <span class="text-[10px] text-gray-400 font-bold uppercase tracking-widest block mb-1">Account No</span>
-                                <div class="flex justify-between items-center">
-                                    <span class="text-xl font-mono font-bold text-gray-800">89753200</span>
-                                    <i data-lucide="copy" class="w-4 h-4 text-accent opacity-0 group-hover:opacity-100 transition-opacity"></i>
-                                </div>
+                        <div class="pt-4 border-t border-gray-100 group cursor-pointer" onclick="copyText('IE44BOFI90960189753200')">
+                            <span class="text-[10px] text-gray-400 font-bold uppercase tracking-widest block mb-1">IBAN</span>
+                            <div class="flex items-center justify-between bg-gray-50 p-4 rounded-2xl border border-gray-100 mt-2">
+                                <span class="text-sm font-mono font-bold text-primary truncate">IE44BOFI90960189753200</span>
+                                <i data-lucide="copy" class="w-4 h-4 text-accent opacity-50 group-hover:opacity-100 transition-opacity"></i>
                             </div>
                         </div>
-                        
-                        <div class="pt-4 group cursor-pointer" onclick="copyText('IE12BOFI90073889753200')">
-                            <span class="text-[10px] text-gray-400 font-bold uppercase tracking-widest block mb-2 pl-1">IBAN (International Transfer)</span>
-                            <div class="flex items-center justify-between bg-gray-800 p-5 rounded-2xl border border-gray-900 shadow-inner group-hover:bg-gray-900 transition-colors">
-                                <span class="text-sm md:text-base font-mono font-bold text-white tracking-wider truncate">IE12 BOFI 9007 3889 7532 00</span>
-                                <i data-lucide="copy" class="w-5 h-5 text-accent"></i>
+
+                        <div class="group cursor-pointer" onclick="copyText('BOFIIE2D')">
+                            <span class="text-[10px] text-gray-400 font-bold uppercase tracking-widest block mb-1">BIC</span>
+                            <div class="flex items-center justify-between bg-gray-50 p-4 rounded-2xl border border-gray-100 mt-2">
+                                <span class="text-sm font-mono font-bold text-primary">BOFIIE2D</span>
+                                <i data-lucide="copy" class="w-4 h-4 text-accent opacity-50 group-hover:opacity-100 transition-opacity"></i>
                             </div>
                         </div>
                     </div>
                 </div>
+                <p class="text-xs text-gray-400 mt-8 italic text-center">Bank of Ireland. Please email us to confirm your donation.</p>
             </div>
 
-            <!-- Philosophy Card -->
-            <div class="md:col-span-2 bg-primary p-10 rounded-[2.5rem] shadow-2xl text-white flex flex-col items-center justify-center text-center reveal reveal-delay-2 relative overflow-hidden">
-                <div class="absolute inset-0 bg-[radial-gradient(circle_at_top_right,rgba(173,139,58,0.2),transparent_50%)]"></div>
-                
-                <div class="relative z-10 flex flex-col items-center">
-                    <div class="w-20 h-20 bg-white/5 backdrop-blur-sm border border-white/10 rounded-full flex items-center justify-center mb-8 shadow-lg">
-                        <i data-lucide="sprout" class="text-accent w-10 h-10"></i>
-                    </div>
-                    <h3 class="text-3xl font-serif italic mb-6">Sadaqah Jariyah</h3>
-                    <p class="text-gray-300 leading-relaxed font-light mb-10 text-sm">
-                        "When a man dies, his deeds come to an end except for three: ongoing charity, knowledge by which people benefit, and a righteous child who prays for him."
-                    </p>
-                    <div class="text-[10px] font-bold text-accent uppercase tracking-[0.3em] border-t border-white/10 pt-6 w-full mt-auto">
-                        Charity Reg: CHY 18219
-                    </div>
+            <div class="bg-primary p-12 rounded-[3.5rem] shadow-2xl text-white flex flex-col items-center justify-center text-center">
+                <div class="w-20 h-20 bg-accent/20 rounded-full flex items-center justify-center mb-8">
+                    <i data-lucide="heart-handshake" class="text-accent w-10 h-10"></i>
                 </div>
+                <h3 class="text-2xl font-serif italic mb-6">Sadaqah Jariyah</h3>
+                <p class="text-gray-300 leading-relaxed font-light mb-10">
+                    "When a man dies, his deeds come to an end except for three: ongoing charity, knowledge by which people benefit, and a righteous child who prays for him."
+                </p>
+                <div class="text-[10px] font-bold text-accent uppercase tracking-[0.3em] border-t border-white/10 pt-8 w-full">
+                    Charity Reg: CHY 18219
+                </div>
+                <!-- PayPal Form Integration -->
+                <form action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_blank" class="mt-6">
+                    <input type="hidden" name="cmd" value="_s-xclick">
+                    <input type="hidden" name="hosted_button_id" value="5RL7YZY4ZCUUL">
+                    <button type="submit" class="bg-white text-primary px-8 py-3 rounded-full font-bold shadow-lg hover:bg-gray-100 transition-colors">Donate via PayPal</button>
+                </form>
             </div>
         </div>
     </section>
 
-    <section id="contact" class="py-24 md:py-32 bg-[#FBF9F1] px-6 lg:px-12 border-t border-gray-200/50">
+    <!-- Contact Hub -->
+    <section id="contact" class="py-32 bg-[#FBF9F1] px-6 lg:px-12 reveal">
         <div class="max-w-7xl mx-auto">
-            <div class="grid lg:grid-cols-2 gap-16 lg:gap-24">
-                
-                <!-- Contact Info & Map -->
-                <div class="reveal">
-                    <div class="flex items-center space-x-4 mb-6">
-                        <div class="w-12 h-[2px] bg-accent"></div>
-                        <span class="text-accent font-bold uppercase tracking-[0.3em] text-[10px]">Get in Touch</span>
-                    </div>
-                    <h2 class="text-4xl md:text-5xl font-serif text-primary mb-10">Visit or Contact Us</h2>
-                    
-                    <div class="space-y-8 mb-12">
-                        <div class="flex items-start p-6 bg-white rounded-2xl shadow-sm border border-gray-100 hover:shadow-md transition-shadow">
-                            <div class="bg-primary/5 p-4 rounded-xl mr-5">
-                                <i data-lucide="map-pin" class="text-primary w-6 h-6"></i>
+            <div class="grid lg:grid-cols-2 gap-16">
+                <div>
+                    <h2 class="text-4xl font-serif text-primary mb-12">Get in Touch</h2>
+                    <div class="space-y-12">
+                        <div class="flex items-start">
+                            <div class="bg-white p-4 rounded-2xl shadow-sm mr-6">
+                                <i data-lucide="map-pin" class="text-accent"></i>
                             </div>
                             <div>
-                                <h4 class="font-bold text-primary mb-1 text-lg">Our Location</h4>
-                                <p class="text-gray-500 text-sm leading-relaxed">Warrenstown House, Blanchardstown,<br>Dublin 15, D15 ET27</p>
+                                <h4 class="font-bold text-primary mb-2">Our Location</h4>
+                                <p class="text-gray-500 text-sm leading-relaxed">Warrenstown House,<br>Blanchardstown Road North,<br>Blanchardstown, Dublin 15</p>
                             </div>
                         </div>
-                        
-                        <div class="flex items-start p-6 bg-white rounded-2xl shadow-sm border border-gray-100 hover:shadow-md transition-shadow">
-                            <div class="bg-primary/5 p-4 rounded-xl mr-5">
-                                <i data-lucide="phone" class="text-primary w-6 h-6"></i>
+                        <div class="flex items-start">
+                            <div class="bg-white p-4 rounded-2xl shadow-sm mr-6">
+                                <i data-lucide="phone" class="text-accent"></i>
                             </div>
                             <div>
-                                <h4 class="font-bold text-primary mb-1 text-lg">Direct Line</h4>
-                                <div class="space-y-1">
-                                    <p class="text-gray-500 text-sm hover:text-accent transition-colors"><a href="tel:018218748">01 821 8748</a></p>
-                                    <p class="text-gray-500 text-sm hover:text-accent transition-colors"><a href="tel:0861531260">086 1531260</a></p>
-                                </div>
+                                <h4 class="font-bold text-primary mb-2">Direct Lines</h4>
+                                <p class="text-gray-500 text-sm mb-1">Main: 01 821 8748</p>
+                                <p class="text-gray-500 text-sm">Mobile: 086 1531260</p>
                             </div>
                         </div>
-                        
-                        <div class="flex items-start p-6 bg-white rounded-2xl shadow-sm border border-gray-100 hover:shadow-md transition-shadow">
-                            <div class="bg-primary/5 p-4 rounded-xl mr-5">
-                                <i data-lucide="mail" class="text-primary w-6 h-6"></i>
+                        <div class="flex items-start">
+                            <div class="bg-white p-4 rounded-2xl shadow-sm mr-6">
+                                <i data-lucide="mail" class="text-accent"></i>
                             </div>
                             <div>
-                                <h4 class="font-bold text-primary mb-1 text-lg">Email Address</h4>
-                                <p class="text-gray-500 text-sm hover:text-accent transition-colors"><a href="mailto:info@shuhadafoundation.com">info@shuhadafoundation.com</a></p>
+                                <h4 class="font-bold text-primary mb-2">Email Address</h4>
+                                <p class="text-gray-500 text-sm">info@shuhadafoundation.com</p>
                             </div>
                         </div>
                     </div>
-
-                    <!-- Map CTA -->
-                    <a href="https://www.google.com/maps/search/?api=1&query=Warrenstown+House+Blanchardstown+Dublin+15" target="_blank" 
-                       class="group relative overflow-hidden bg-white rounded-[2rem] shadow-lg border border-gray-100 p-8 flex items-center justify-between hover:shadow-xl transition-all">
-                        <div class="absolute inset-0 bg-primary/5 opacity-0 group-hover:opacity-100 transition-opacity"></div>
-                        <div class="relative z-10">
-                            <h3 class="text-xl font-bold text-primary mb-2">Get Directions</h3>
-                            <p class="text-sm text-gray-500">Open location in Google Maps</p>
-                        </div>
-                        <div class="w-14 h-14 bg-primary text-white rounded-full flex items-center justify-center group-hover:bg-accent transition-colors relative z-10 shadow-md">
-                            <i data-lucide="navigation" class="w-6 h-6 ml-0.5"></i>
-                        </div>
-                    </a>
                 </div>
 
-                <!-- Contact Form Add-on -->
-                <div class="bg-white rounded-[2.5rem] shadow-xl border border-gray-100 p-8 md:p-12 reveal reveal-delay-2">
-                    <h3 class="text-2xl font-bold text-primary mb-2">Send us a Message</h3>
-                    <p class="text-gray-500 text-sm mb-8 font-light">Have a question about our services, madrassa, or donations? Fill out the form below.</p>
-                    
-                    <form onsubmit="event.preventDefault(); showToast('Message Sent Successfully!'); this.reset();" class="space-y-6">
-                        <div class="space-y-2">
-                            <label class="text-[11px] font-bold uppercase tracking-widest text-gray-500 ml-1">Full Name</label>
-                            <input type="text" required class="w-full bg-gray-50 border border-gray-200 rounded-xl px-4 py-3.5 focus:outline-none focus:ring-2 focus:ring-accent/50 focus:border-accent transition-all text-sm" placeholder="e.g. Abdullah Rahman">
+                <!-- Contact Form replacing blank map -->
+                <div class="bg-white rounded-[3.5rem] shadow-xl p-10 border border-gray-50">
+                    <h3 class="text-2xl font-bold text-primary mb-8">Send us a message</h3>
+                    <form class="space-y-6" onsubmit="event.preventDefault(); copyText('Form submitted successfully!');">
+                        <div class="grid grid-cols-2 gap-6">
+                            <div>
+                                <label class="block text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-2">First Name</label>
+                                <input type="text" class="w-full bg-gray-50 border-none rounded-2xl px-5 py-4 focus:ring-2 focus:ring-accent outline-none transition-all" required>
+                            </div>
+                            <div>
+                                <label class="block text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-2">Last Name</label>
+                                <input type="text" class="w-full bg-gray-50 border-none rounded-2xl px-5 py-4 focus:ring-2 focus:ring-accent outline-none transition-all">
+                            </div>
                         </div>
-                        
-                        <div class="space-y-2">
-                            <label class="text-[11px] font-bold uppercase tracking-widest text-gray-500 ml-1">Email Address</label>
-                            <input type="email" required class="w-full bg-gray-50 border border-gray-200 rounded-xl px-4 py-3.5 focus:outline-none focus:ring-2 focus:ring-accent/50 focus:border-accent transition-all text-sm" placeholder="your@email.com">
+                        <div>
+                            <label class="block text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-2">Email Address</label>
+                            <input type="email" class="w-full bg-gray-50 border-none rounded-2xl px-5 py-4 focus:ring-2 focus:ring-accent outline-none transition-all" required>
                         </div>
-                        
-                        <div class="space-y-2">
-                            <label class="text-[11px] font-bold uppercase tracking-widest text-gray-500 ml-1">Your Message</label>
-                            <textarea required rows="4" class="w-full bg-gray-50 border border-gray-200 rounded-xl px-4 py-3.5 focus:outline-none focus:ring-2 focus:ring-accent/50 focus:border-accent transition-all text-sm resize-none" placeholder="How can we help you?"></textarea>
+                        <div>
+                            <label class="block text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-2">Message</label>
+                            <textarea rows="4" class="w-full bg-gray-50 border-none rounded-2xl px-5 py-4 focus:ring-2 focus:ring-accent outline-none transition-all resize-none" required></textarea>
                         </div>
-                        
-                        <button type="submit" class="w-full btn-gradient text-white font-bold py-4 rounded-xl shadow-lg flex justify-center items-center">
-                            Send Message <i data-lucide="send" class="ml-2 w-4 h-4"></i>
-                        </button>
+                        <button type="submit" class="w-full btn-gradient text-white font-bold py-4 rounded-2xl shadow-lg">Send Message</button>
                     </form>
                 </div>
-                
             </div>
         </div>
     </section>
 
-    <footer class="bg-white pt-24 pb-10 border-t border-gray-100">
+    <!-- Footer -->
+    <footer class="bg-white pt-24 pb-12 border-t border-gray-50">
         <div class="max-w-7xl mx-auto px-6 lg:px-12">
-            <div class="flex flex-col md:flex-row justify-between items-center mb-16">
-                <a href="#home" class="flex items-center space-x-3 mb-8 md:mb-0 hover:opacity-80 transition-opacity">
+            <div class="flex flex-col md:flex-row justify-between items-center mb-16 gap-8">
+                <div class="flex items-center space-x-3 cursor-pointer" onclick="window.scrollTo(0,0)">
                     <div class="bg-primary p-2.5 rounded-xl">
                         <i data-lucide="mosque" class="text-white w-5 h-5"></i>
                     </div>
-                    <div>
-                        <span class="text-xl font-extrabold text-primary tracking-tight block leading-none">SHUHADA FOUNDATION</span>
-                        <span class="text-[8px] tracking-[0.2em] text-gray-400 uppercase font-bold">Of Ireland</span>
-                    </div>
-                </a>
-                
-                <div class="flex flex-wrap justify-center gap-x-10 gap-y-4 text-xs font-bold uppercase tracking-widest text-gray-400">
+                    <span class="text-xl font-extrabold text-primary tracking-tight">SHUHADA FOUNDATION</span>
+                </div>
+                <div class="flex flex-wrap justify-center gap-8 text-xs font-bold uppercase tracking-widest text-gray-400">
                     <a href="#about" class="hover:text-primary transition-colors">History</a>
-                    <a href="#services" class="hover:text-primary transition-colors">Services</a>
                     <a href="#madrassa" class="hover:text-primary transition-colors">Education</a>
-                    <a href="#events" class="hover:text-primary transition-colors">Gallery</a>
-                    <a href="#construction" class="hover:text-primary transition-colors">Project</a>
+                    <a href="#events" class="hover:text-primary transition-colors">Events</a>
+                    <a href="#construction" class="hover:text-primary transition-colors">Masjid Project</a>
+                    <a href="#donate" class="hover:text-primary transition-colors">Support</a>
                 </div>
             </div>
             
-            <div class="text-center pt-10 border-t border-gray-100 flex flex-col items-center">
-                <p class="text-gray-400 text-[9px] font-bold uppercase tracking-[0.3em] mb-4 bg-gray-50 px-4 py-2 rounded-full inline-block">
-                    Irish Islamic Dawah and Education Trust • Charity (CHY 18219)
-                </p>
-                <p class="text-gray-400 text-xs font-medium">© <span id="year"></span> Shuhada Foundation of Ireland. Built with dedication for the community.</p>
+            <div class="text-center pt-12 border-t border-gray-50">
+                <div class="flex justify-center space-x-6 mb-6">
+                    <a href="https://www.facebook.com/pages/In-remembrance-of-the-Taufiq-family/386151341510950" target="_blank" class="text-gray-400 hover:text-accent transition-colors flex items-center space-x-2">
+                        <i data-lucide="facebook" class="w-5 h-5"></i>
+                        <span class="text-xs font-bold uppercase tracking-widest">In Remembrance of the Taufiq Family</span>
+                    </a>
+                </div>
+                <p class="text-gray-400 text-[9px] font-bold uppercase tracking-[0.4em] mb-4">Irish Islamic Dawah and Education Trust • Registered Charity (CHY 18219)</p>
+                <p class="text-gray-400 text-xs">© <span id="year"></span> Shuhada Foundation of Ireland. Built for the community.</p>
             </div>
         </div>
     </footer>
 
-    <!-- Universal Notification Toast -->
-    <div id="toast" class="fixed bottom-8 right-8 bg-primary text-white px-6 py-4 rounded-2xl shadow-[0_10px_40px_rgba(18,55,42,0.3)] translate-y-32 opacity-0 transition-all duration-500 z-[100] flex items-center space-x-3 border border-white/10">
-        <div class="bg-accent rounded-full p-1"><i data-lucide="check" class="w-4 h-4 text-white"></i></div>
-        <span id="toast-msg" class="text-sm font-bold tracking-wide">Copied!</span>
+    <!-- Notification Toast -->
+    <div id="toast" class="fixed bottom-10 right-10 bg-primary text-white px-8 py-4 rounded-2xl shadow-2xl translate-y-32 transition-transform duration-500 z-[100] flex items-center space-x-4">
+        <div class="bg-accent rounded-full p-1.5"><i data-lucide="check" class="w-4 h-4 text-white"></i></div>
+        <span id="toast-msg" class="text-sm font-bold tracking-wide">Copied to clipboard</span>
     </div>
 
     <script>
-        // Initialize Lucide Icons
+        // Initialize Icons
         lucide.createIcons();
-
-        // Dynamic Year
-        document.getElementById('year').textContent = new Date().getFullYear();
 
         // Mobile Menu Logic
         const menuBtn = document.getElementById('menu-btn');
@@ -829,104 +622,68 @@
         menuBtn.addEventListener('click', () => {
             mobileMenu.classList.remove('hidden');
             mobileMenu.classList.add('flex');
-            setTimeout(() => mobileMenu.classList.remove('opacity-0'), 10);
             document.body.style.overflow = 'hidden';
         });
 
         const hideMenu = () => {
-            mobileMenu.classList.add('opacity-0');
-            setTimeout(() => {
-                mobileMenu.classList.add('hidden');
-                mobileMenu.classList.remove('flex');
-                document.body.style.overflow = '';
-            }, 300);
+            mobileMenu.classList.add('hidden');
+            mobileMenu.classList.remove('flex');
+            document.body.style.overflow = '';
         };
 
         closeMenu.addEventListener('click', hideMenu);
         mobileMenu.querySelectorAll('a').forEach(a => a.addEventListener('click', hideMenu));
 
-        // Toast Notification Logic
-        let toastTimeout;
-        function showToast(message) {
-            const toast = document.getElementById('toast');
-            document.getElementById('toast-msg').textContent = message;
-            
-            toast.classList.remove('translate-y-32', 'opacity-0');
-            
-            clearTimeout(toastTimeout);
-            toastTimeout = setTimeout(() => {
-                toast.classList.add('translate-y-32', 'opacity-0');
-            }, 3000);
-        }
-
-        // Copy Text Logic
+        // Copy Text & Toast Logic
         function copyText(text) {
-            // Check if navigator.clipboard is available (requires HTTPS or localhost)
-            if (navigator.clipboard && window.isSecureContext) {
-                navigator.clipboard.writeText(text).then(() => {
-                    showToast('Copied to clipboard');
-                }).catch(err => {
-                    fallbackCopyTextToClipboard(text);
-                });
-            } else {
-                fallbackCopyTextToClipboard(text);
+            const isMsg = text.includes('Form');
+            if(!isMsg) {
+                const el = document.createElement('textarea');
+                el.value = text;
+                document.body.appendChild(el);
+                el.select();
+                document.execCommand('copy');
+                document.body.removeChild(el);
             }
+            
+            const toast = document.getElementById('toast');
+            document.getElementById('toast-msg').textContent = isMsg ? text : 'Copied to clipboard';
+            toast.classList.remove('translate-y-32');
+            setTimeout(() => toast.classList.add('translate-y-32'), 3000);
         }
 
-        function fallbackCopyTextToClipboard(text) {
-            const el = document.createElement('textarea');
-            el.value = text;
-            el.setAttribute('readonly', '');
-            el.style.position = 'absolute';
-            el.style.left = '-9999px';
-            document.body.appendChild(el);
-            el.select();
-            try {
-                document.execCommand('copy');
-                showToast('Copied to clipboard');
-            } catch (err) {
-                console.error('Fallback: Oops, unable to copy', err);
-            }
-            document.body.removeChild(el);
-        }
+        // Year
+        document.getElementById('year').textContent = new Date().getFullYear();
 
         // Navbar Scroll Styling
         window.addEventListener('scroll', () => {
-            const navContainer = document.getElementById('nav-container');
-            const navbar = document.getElementById('navbar');
-            
-            if (window.scrollY > 50) {
-                navContainer.classList.add('h-16');
-                navContainer.classList.remove('h-20');
-                navbar.classList.add('shadow-md');
+            const nav = document.querySelector('nav');
+            if (window.scrollY > 100) {
+                nav.classList.add('h-16', 'shadow-xl');
+                nav.classList.remove('h-20');
             } else {
-                navContainer.classList.remove('h-16');
-                navContainer.classList.add('h-20');
-                navbar.classList.remove('shadow-md');
+                nav.classList.remove('h-16', 'shadow-xl');
+                nav.classList.add('h-20');
             }
         });
 
-        // Intersection Observer for Scroll Animations
-        document.addEventListener("DOMContentLoaded", () => {
-            const observerOptions = {
-                root: null,
-                rootMargin: '0px',
-                threshold: 0.15 // Trigger when 15% of element is visible
-            };
+        // Reveal Animations on Scroll
+        const observerOptions = {
+            root: null,
+            rootMargin: '0px',
+            threshold: 0.15
+        };
 
-            const observer = new IntersectionObserver((entries, observer) => {
-                entries.forEach(entry => {
-                    if (entry.isIntersecting) {
-                        entry.target.classList.add('active');
-                        // Optional: Unobserve after animation if you only want it to run once
-                        // observer.unobserve(entry.target); 
-                    }
-                });
-            }, observerOptions);
+        const observer = new IntersectionObserver((entries, observer) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('active');
+                    observer.unobserve(entry.target);
+                }
+            });
+        }, observerOptions);
 
-            const revealElements = document.querySelectorAll('.reveal');
-            revealElements.forEach(el => observer.observe(el));
-        });
+        document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
     </script>
 </body>
 </html>
