@@ -1,0 +1,96 @@
+{
+  "$ref": "#/definitions/DonationsContent",
+  "definitions": {
+    "DonationsContent": {
+      "type": "object",
+      "properties": {
+        "bankTransferEnabled": {
+          "type": "boolean"
+        },
+        "onlineDonationEnabled": {
+          "type": "boolean"
+        },
+        "whatsappCommunityEnabled": {
+          "type": "boolean"
+        },
+        "bankTransfer": {
+          "anyOf": [
+            {
+              "type": "object",
+              "properties": {
+                "bankName": {
+                  "type": "string",
+                  "minLength": 1
+                },
+                "accountName": {
+                  "type": "string",
+                  "minLength": 1
+                },
+                "iban": {
+                  "type": "string",
+                  "minLength": 15
+                },
+                "bic": {
+                  "type": "string",
+                  "minLength": 8
+                }
+              },
+              "required": [
+                "bankName",
+                "accountName",
+                "iban",
+                "bic"
+              ],
+              "additionalProperties": false
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "onlineDonationUrl": {
+          "anyOf": [
+            {
+              "type": "string",
+              "format": "uri"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "whatsappUrl": {
+          "anyOf": [
+            {
+              "type": "string",
+              "format": "uri"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "fallbackEmail": {
+          "type": "string",
+          "const": "info@shuhadafoundation.com"
+        },
+        "fallbackPhone": {
+          "type": "string",
+          "const": "+35318218748"
+        }
+      },
+      "required": [
+        "bankTransferEnabled",
+        "onlineDonationEnabled",
+        "whatsappCommunityEnabled",
+        "bankTransfer",
+        "onlineDonationUrl",
+        "whatsappUrl",
+        "fallbackEmail",
+        "fallbackPhone"
+      ],
+      "additionalProperties": false
+    }
+  },
+  "$schema": "http://json-schema.org/draft-07/schema#"
+}

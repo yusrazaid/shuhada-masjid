@@ -1,0 +1,67 @@
+{
+  "$ref": "#/definitions/ServicesContent",
+  "definitions": {
+    "ServicesContent": {
+      "type": "object",
+      "properties": {
+        "services": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "id": {
+                "type": "string",
+                "minLength": 1
+              },
+              "title": {
+                "type": "string",
+                "minLength": 1
+              },
+              "summary": {
+                "type": "string",
+                "minLength": 1
+              },
+              "details": {
+                "type": "string",
+                "minLength": 1
+              },
+              "icon": {
+                "type": "string",
+                "enum": [
+                  "moon",
+                  "book",
+                  "users",
+                  "heart",
+                  "school"
+                ]
+              },
+              "actionLabel": {
+                "type": "string",
+                "minLength": 1
+              },
+              "actionHref": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "id",
+              "title",
+              "summary",
+              "details",
+              "icon",
+              "actionLabel",
+              "actionHref"
+            ],
+            "additionalProperties": false
+          },
+          "minItems": 1
+        }
+      },
+      "required": [
+        "services"
+      ],
+      "additionalProperties": false
+    }
+  },
+  "$schema": "http://json-schema.org/draft-07/schema#"
+}

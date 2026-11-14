@@ -1,0 +1,38 @@
+{
+  "organizationName": "Shuhada Foundation of Ireland",
+  "masjidName": "Shaheed Bilal Masjid (Islamic Cultural and Education Centre)",
+  "legalCharityName": "Irish Islamic Da'awah and Education Trust",
+  "charitiesRegulatorNumber": "20069506",
+  "revenueCharityTaxNumber": "CHY. 18219",
+  "address": {
+    "street": "Warrenstown House",
+    "locality": "Blanchardstown",
+    "city": "Dublin 15",
+    "eircode": "D15 ET27",
+    "country": "Ireland",
+    "formatted": "Warrenstown House, Blanchardstown, Dublin 15, D15 ET27, Ireland"
+  },
+  "coordinates": {
+    "latitude": 53.385,
+    "longitude": -6.386
+  },
+  "timezone": "Europe/Dublin",
+  "phone": "+353 1 821 8748",
+  "displayPhone": "01 821 8748",
+  "email": "info@shuhadafoundation.com",
+  "domains": {
+    "primary": "https://shuhadafoundation.com",
+    "secondaryRedirect": "https://shuhadafoundation.ch"
+  },
+  "sisterSchools": [
+    {
+      "name": "Shaheeda Zainab Muslim Independent Primary School",
+      "url": "https://szainabschool.com"
+    },
+    {
+      "name": "Summe Bilal School",
+      "url": "https://summebilalschool.com"
+    }
+  ],
+  "description": "A welcoming home for worship, Islamic learning and community life in Dublin 15."
+}

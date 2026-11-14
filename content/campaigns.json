@@ -1,0 +1,25 @@
+{
+  "campaign": {
+    "title": "Shaheed Bilal Masjid",
+    "eyebrow": "A home for worship, learning and community",
+    "description": "The Shaheed Bilal Masjid project is a long-term community vision. Follow this page for confirmed project updates and ways to support the work.",
+    "hadith": {
+      "text": "Whoever builds a mosque for Allah, Allah will build for him a house like it in Paradise.",
+      "source": "Sahih Muslim 533"
+    },
+    "milestones": [
+      {
+        "title": "Project planning",
+        "status": "unpublished"
+      },
+      {
+        "title": "Construction",
+        "status": "unpublished"
+      },
+      {
+        "title": "Community opening",
+        "status": "unpublished"
+      }
+    ]
+  }
+}

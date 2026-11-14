@@ -1,0 +1,58 @@
+{
+  "services": [
+    {
+      "id": "worship",
+      "title": "Worship",
+      "summary": "A place for daily prayer, Jummah and shared worship.",
+      "details": "Shaheed Bilal Masjid serves the Muslim community in Dublin 15. Check the live timetable for prayer and Jummah information before you travel.",
+      "icon": "moon",
+      "actionLabel": "View prayer times",
+      "actionHref": "/timetable/"
+    },
+    {
+      "id": "learning",
+      "title": "Islamic learning",
+      "summary": "Qur'an, Arabic and faith learning for the community.",
+      "details": "Contact the Foundation for current class availability, age groups, enrolment details and accessibility information.",
+      "icon": "book",
+      "actionLabel": "Ask about learning",
+      "actionHref": "mailto:info@shuhadafoundation.com?subject=Islamic%20Learning%20Enquiry"
+    },
+    {
+      "id": "community",
+      "title": "Community life",
+      "summary": "A welcoming space for neighbours, families and volunteers.",
+      "details": "For current programmes, volunteering and community support, contact the Foundation. The website does not publish unconfirmed event dates.",
+      "icon": "users",
+      "actionLabel": "Get in touch",
+      "actionHref": "mailto:info@shuhadafoundation.com?subject=Community%20Enquiry"
+    },
+    {
+      "id": "janazah",
+      "title": "Janazah support",
+      "summary": "Practical first steps and a guide for bereaved families.",
+      "details": "Read the Dublin Janazah guide for an initial checklist. Contact the Foundation to confirm current arrangements and availability.",
+      "icon": "heart",
+      "actionLabel": "Open the Janazah guide",
+      "actionHref": "/janazah/"
+    },
+    {
+      "id": "shaheeda-zainab-school",
+      "title": "Shaheeda Zainab Muslim Independent Primary School",
+      "summary": "Visit the Foundation's affiliated primary school website.",
+      "details": "For school information, admissions and current details, contact the school through its official website.",
+      "icon": "school",
+      "actionLabel": "Visit school website",
+      "actionHref": "https://szainabschool.com"
+    },
+    {
+      "id": "summe-bilal-school",
+      "title": "Summe Bilal School",
+      "summary": "Visit the Foundation's affiliated school website.",
+      "details": "For school information, admissions and current details, contact the school through its official website.",
+      "icon": "school",
+      "actionLabel": "Visit school website",
+      "actionHref": "https://summebilalschool.com"
+    }
+  ]
+}

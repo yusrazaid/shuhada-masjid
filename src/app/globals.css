@@ -1,0 +1,119 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  color-scheme: light;
+  --forest: #12372a;
+  --forest-deep: #0b261c;
+  --gold: #b4914c;
+  --parchment: #f8f6ef;
+  --ink: #17231d;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: 6rem;
+}
+
+body {
+  margin: 0;
+  background: var(--parchment);
+  color: var(--ink);
+  font-family: var(--font-jakarta), sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
+
+button,
+a,
+input,
+textarea {
+  font: inherit;
+}
+
+a {
+  color: inherit;
+}
+
+::selection {
+  background: rgba(180, 145, 76, 0.24);
+  color: var(--forest-deep);
+}
+
+:focus-visible {
+  outline: 3px solid #d4b56d;
+  outline-offset: 3px;
+}
+
+.font-arabic {
+  font-family: var(--font-amiri), Georgia, serif;
+}
+
+.hero-photo {
+  background-image: linear-gradient(90deg, rgba(9, 34, 24, 0.9), rgba(9, 34, 24, 0.58) 56%, rgba(9, 34, 24, 0.16)), url("/images/masjid-project-view.jpg");
+  background-position: center;
+  background-size: cover;
+}
+
+.subtle-grid {
+  background-image: linear-gradient(rgba(255, 255, 255, 0.035) 1px, transparent 1px), linear-gradient(90deg, rgba(255, 255, 255, 0.035) 1px, transparent 1px);
+  background-size: 42px 42px;
+}
+
+.map-frame {
+  filter: saturate(0.8);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    scroll-behavior: auto !important;
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+@media print {
+  @page {
+    size: A4 portrait;
+    margin: 10mm;
+  }
+
+  body {
+    background: #fff;
+  }
+
+  nav,
+  footer,
+  .no-print,
+  .urgent-banner {
+    display: none !important;
+  }
+
+  .print-heading {
+    display: block !important;
+  }
+
+  main {
+    padding: 0 !important;
+  }
+
+  table {
+    page-break-inside: auto;
+  }
+
+  thead {
+    display: table-header-group;
+  }
+
+  tr {
+    break-inside: avoid;
+    page-break-inside: avoid;
+  }
+}

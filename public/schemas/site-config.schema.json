@@ -1,0 +1,165 @@
+{
+  "$ref": "#/definitions/SiteConfigContent",
+  "definitions": {
+    "SiteConfigContent": {
+      "type": "object",
+      "properties": {
+        "organizationName": {
+          "type": "string",
+          "const": "Shuhada Foundation of Ireland"
+        },
+        "masjidName": {
+          "type": "string",
+          "const": "Shaheed Bilal Masjid (Islamic Cultural and Education Centre)"
+        },
+        "legalCharityName": {
+          "type": "string",
+          "const": "Irish Islamic Da'awah and Education Trust"
+        },
+        "charitiesRegulatorNumber": {
+          "type": "string",
+          "const": "20069506"
+        },
+        "revenueCharityTaxNumber": {
+          "type": "string",
+          "const": "CHY. 18219"
+        },
+        "address": {
+          "type": "object",
+          "properties": {
+            "street": {
+              "type": "string",
+              "const": "Warrenstown House"
+            },
+            "locality": {
+              "type": "string",
+              "const": "Blanchardstown"
+            },
+            "city": {
+              "type": "string",
+              "const": "Dublin 15"
+            },
+            "eircode": {
+              "type": "string",
+              "const": "D15 ET27"
+            },
+            "country": {
+              "type": "string",
+              "const": "Ireland"
+            },
+            "formatted": {
+              "type": "string",
+              "const": "Warrenstown House, Blanchardstown, Dublin 15, D15 ET27, Ireland"
+            }
+          },
+          "required": [
+            "street",
+            "locality",
+            "city",
+            "eircode",
+            "country",
+            "formatted"
+          ],
+          "additionalProperties": false
+        },
+        "coordinates": {
+          "type": "object",
+          "properties": {
+            "latitude": {
+              "type": "number",
+              "const": 53.385
+            },
+            "longitude": {
+              "type": "number",
+              "const": -6.386
+            }
+          },
+          "required": [
+            "latitude",
+            "longitude"
+          ],
+          "additionalProperties": false
+        },
+        "timezone": {
+          "type": "string",
+          "const": "Europe/Dublin"
+        },
+        "phone": {
+          "type": "string",
+          "const": "+353 1 821 8748"
+        },
+        "displayPhone": {
+          "type": "string",
+          "const": "01 821 8748"
+        },
+        "email": {
+          "type": "string",
+          "const": "info@shuhadafoundation.com"
+        },
+        "domains": {
+          "type": "object",
+          "properties": {
+            "primary": {
+              "type": "string",
+              "const": "https://shuhadafoundation.com"
+            },
+            "secondaryRedirect": {
+              "type": "string",
+              "const": "https://shuhadafoundation.ch"
+            }
+          },
+          "required": [
+            "primary",
+            "secondaryRedirect"
+          ],
+          "additionalProperties": false
+        },
+        "sisterSchools": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "name": {
+                "type": "string",
+                "minLength": 1
+              },
+              "url": {
+                "type": "string",
+                "format": "uri"
+              }
+            },
+            "required": [
+              "name",
+              "url"
+            ],
+            "additionalProperties": false
+          },
+          "minItems": 2,
+          "maxItems": 2
+        },
+        "description": {
+          "type": "string",
+          "minLength": 20
+        }
+      },
+      "required": [
+        "organizationName",
+        "masjidName",
+        "legalCharityName",
+        "charitiesRegulatorNumber",
+        "revenueCharityTaxNumber",
+        "address",
+        "coordinates",
+        "timezone",
+        "phone",
+        "displayPhone",
+        "email",
+        "domains",
+        "sisterSchools",
+        "description"
+      ],
+      "additionalProperties": false
+    }
+  },
+  "$schema": "http://json-schema.org/draft-07/schema#"
+}

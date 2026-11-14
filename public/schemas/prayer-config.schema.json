@@ -1,0 +1,114 @@
+{
+  "$ref": "#/definitions/PrayerConfigContent",
+  "definitions": {
+    "PrayerConfigContent": {
+      "type": "object",
+      "properties": {
+        "latitude": {
+          "type": "number",
+          "const": 53.385
+        },
+        "longitude": {
+          "type": "number",
+          "const": -6.386
+        },
+        "timezone": {
+          "type": "string",
+          "const": "Europe/Dublin"
+        },
+        "aladhanMethod": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 99
+        },
+        "asrDefault": {
+          "type": "string",
+          "enum": [
+            "standard",
+            "hanafi"
+          ]
+        },
+        "iqamahOffsetsConfirmed": {
+          "type": "boolean"
+        },
+        "iqamahOffsetsMinutes": {
+          "type": "object",
+          "properties": {
+            "fajr": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 180
+            },
+            "dhuhr": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 180
+            },
+            "asr": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 180
+            },
+            "maghrib": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 180
+            },
+            "isha": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 180
+            }
+          },
+          "required": [
+            "fajr",
+            "dhuhr",
+            "asr",
+            "maghrib",
+            "isha"
+          ],
+          "additionalProperties": false
+        },
+        "jummah": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "name": {
+                "type": "string",
+                "minLength": 1
+              },
+              "khutbah": {
+                "type": "string",
+                "pattern": "^(?:[01]\\d|2[0-3]):[0-5]\\d$"
+              },
+              "iqamah": {
+                "$ref": "#/definitions/PrayerConfigContent/properties/jummah/items/properties/khutbah"
+              }
+            },
+            "required": [
+              "name",
+              "khutbah",
+              "iqamah"
+            ],
+            "additionalProperties": false
+          },
+          "minItems": 2,
+          "maxItems": 2
+        }
+      },
+      "required": [
+        "latitude",
+        "longitude",
+        "timezone",
+        "aladhanMethod",
+        "asrDefault",
+        "iqamahOffsetsConfirmed",
+        "iqamahOffsetsMinutes",
+        "jummah"
+      ],
+      "additionalProperties": false
+    }
+  },
+  "$schema": "http://json-schema.org/draft-07/schema#"
+}

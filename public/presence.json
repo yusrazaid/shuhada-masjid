@@ -1,0 +1,76 @@
+{
+  "generatedAt": "2026-11-14T17:55:55.949Z",
+  "identity": {
+    "organization": "Shuhada Foundation of Ireland",
+    "masjid": "Shaheed Bilal Masjid (Islamic Cultural and Education Centre)",
+    "legalCharity": "Irish Islamic Da'awah and Education Trust",
+    "charitiesRegulatorNumber": "20069506",
+    "revenueCharityTaxNumber": "CHY. 18219"
+  },
+  "location": {
+    "address": {
+      "street": "Warrenstown House",
+      "locality": "Blanchardstown",
+      "city": "Dublin 15",
+      "eircode": "D15 ET27",
+      "country": "Ireland",
+      "formatted": "Warrenstown House, Blanchardstown, Dublin 15, D15 ET27, Ireland"
+    },
+    "latitude": 53.385,
+    "longitude": -6.386,
+    "timezone": "Europe/Dublin"
+  },
+  "contact": {
+    "phone": "+353 1 821 8748",
+    "email": "info@shuhadafoundation.com",
+    "website": "https://shuhadafoundation.com"
+  },
+  "prayerTimes": {
+    "date": "2026-11-14",
+    "source": "Dublin astronomical fallback; the live site refreshes from Aladhan",
+    "sunrise": "07:48",
+    "adhan": {
+      "fajr": "05:46",
+      "dhuhr": "12:10",
+      "asr": "14:09",
+      "maghrib": "16:33",
+      "isha": "18:28"
+    },
+    "iqamah": {
+      "fajr": "06:11",
+      "dhuhr": "12:25",
+      "asr": "14:24",
+      "maghrib": "16:38",
+      "isha": "18:43"
+    },
+    "jummah": [
+      {
+        "name": "1st Jummah",
+        "khutbah": "12:30",
+        "iqamah": "12:55"
+      },
+      {
+        "name": "2nd Jummah",
+        "khutbah": "13:20",
+        "iqamah": "13:45"
+      }
+    ],
+    "calculation": {
+      "aladhanMethod": 3,
+      "asrDefault": "standard",
+      "iqamahOffsetsConfirmed": false,
+      "iqamahOffsetsMinutes": {
+        "fajr": 25,
+        "dhuhr": 15,
+        "asr": 15,
+        "maghrib": 5,
+        "isha": 15
+      }
+    }
+  },
+  "announcements": [],
+  "donationOptions": {
+    "bankTransferEnabled": false,
+    "onlineDonationEnabled": false
+  }
+}

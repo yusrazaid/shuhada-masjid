@@ -1,0 +1,10 @@
+{
+  "bankTransferEnabled": false,
+  "onlineDonationEnabled": false,
+  "whatsappCommunityEnabled": false,
+  "bankTransfer": null,
+  "onlineDonationUrl": null,
+  "whatsappUrl": null,
+  "fallbackEmail": "info@shuhadafoundation.com",
+  "fallbackPhone": "+35318218748"
+}
