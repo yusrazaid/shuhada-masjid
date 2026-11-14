@@ -9,6 +9,8 @@
     "generate-feeds": "tsx scripts/generate-feeds.ts",
     "prebuild": "npm run validate-content && npm run generate-feeds",
     "build": "next build",
+    "build:static": "NEXT_OUTPUT_MODE=export next build",
+    "coordinator": "tsx scripts/coordinator-cli.ts",
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
