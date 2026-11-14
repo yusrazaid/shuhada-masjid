@@ -28,3 +28,20 @@ Keep the profile name, address, phone and website consistent with the verified N
 ## Content maintenance
 
 Edit only the JSON files in /content, then run validation, typecheck and build. Review generated feeds and schemas before committing. No secrets or credentials belong in this static repository.
+
+## Legacy Squarespace Domain Forwarding Rollback Record
+
+If you ever need to roll back `shuhadafoundation.com` to the legacy Weebly site in Squarespace Domains (`Website` -> `Domain forwarding` -> `Add rule`):
+
+- **FROM:** `shuhadafoundation.com`
+- **TO:** `https://dev-shuhadafoundation.weebly.com/`
+- **REDIRECT TYPE:** `Temporary redirect` (302)
+- **PATH FORWARDING:** `Do not forward`
+- **SSL Certificate:** Enabled (Squarespace automatic SSL)
+- **Underlying Squarespace Forwarding `A` Records (`@`, TTL `4 hrs`):**
+  - `198.185.159.144`
+  - `198.185.159.145`
+  - `198.49.23.144`
+  - `198.49.23.145`
+
+To roll back: remove the custom `@` (`A`) and `www` (`CNAME`) Vercel records under **DNS -> Custom Records**, then go to **Website -> Domain forwarding -> Add rule** and enter the values above.
