@@ -28,7 +28,13 @@ export function getLocalContentState(): AllContentState {
   };
 }
 
-export async function loadLiveContentState(): Promise<AllContentState> {
+async function fetchRemoteContentState(options: {
+  cached: boolean;
+}): Promise<AllContentState> {
+  if (process.env.NEXT_OUTPUT_MODE === "export") {
+    return getLocalContentState();
+  }
+
   const repo = process.env.GITHUB_REPOSITORY || DEFAULT_REPO;
   const branch = process.env.GITHUB_BRANCH || DEFAULT_BRANCH;
   const token = process.env.GITHUB_TOKEN;
@@ -44,14 +50,14 @@ export async function loadLiveContentState(): Promise<AllContentState> {
       remoteMedia,
       remoteDonations,
     ] = await Promise.all([
-      fetchGithubJson("site-config", repo, branch, "content/site-config.json", token),
-      fetchGithubJson("prayer-config", repo, branch, "content/prayer-config.json", token),
-      fetchGithubJson("announcements", repo, branch, "content/announcements.json", token),
-      fetchGithubJson("campaigns", repo, branch, "content/campaigns.json", token),
-      fetchGithubJson("services", repo, branch, "content/services.json", token),
-      fetchGithubJson("events", repo, branch, "content/events.json", token),
-      fetchGithubJson("media", repo, branch, "content/media.json", token),
-      fetchGithubJson("donations", repo, branch, "content/donations.json", token),
+      fetchGithubJson("site-config", repo, branch, "content/site-config.json", token, options.cached),
+      fetchGithubJson("prayer-config", repo, branch, "content/prayer-config.json", token, options.cached),
+      fetchGithubJson("announcements", repo, branch, "content/announcements.json", token, options.cached),
+      fetchGithubJson("campaigns", repo, branch, "content/campaigns.json", token, options.cached),
+      fetchGithubJson("services", repo, branch, "content/services.json", token, options.cached),
+      fetchGithubJson("events", repo, branch, "content/events.json", token, options.cached),
+      fetchGithubJson("media", repo, branch, "content/media.json", token, options.cached),
+      fetchGithubJson("donations", repo, branch, "content/donations.json", token, options.cached),
     ]);
 
     return {
@@ -69,22 +75,41 @@ export async function loadLiveContentState(): Promise<AllContentState> {
   }
 }
 
+export async function loadLiveContentState(): Promise<AllContentState> {
+  return fetchRemoteContentState({ cached: false });
+}
+
+export async function loadCachedLiveContentState(): Promise<AllContentState> {
+  return fetchRemoteContentState({ cached: true });
+}
+
 async function fetchGithubJson<K extends keyof AllContentState>(
   schemaKey: K,
   repo: string,
   branch: string,
   path: string,
-  token?: string,
+  token: string | undefined,
+  cached: boolean,
 ): Promise<AllContentState[K] | null> {
   const headers: Record<string, string> = {
-    Accept: "application/vnd.github.raw+json",
     "User-Agent": "shuhada-masjid-coordinator-agent",
   };
+  let url: string;
   if (token) {
+    headers.Accept = "application/vnd.github.raw+json";
     headers.Authorization = `Bearer ${token}`;
+    url = `https://api.github.com/repos/${repo}/contents/${path}?ref=${encodeURIComponent(branch)}`;
+  } else {
+    url = `https://raw.githubusercontent.com/${repo}/${encodeURIComponent(branch)}/${path}`;
   }
-  const url = `https://api.github.com/repos/${repo}/contents/${path}?ref=${encodeURIComponent(branch)}`;
-  const res = await fetch(url, { headers, cache: "no-store" });
+
+  const res = await fetch(url, {
+    headers,
+    signal: AbortSignal.timeout(2500),
+    ...(cached
+      ? { next: { revalidate: 60, tags: ["shuhada-content"] } }
+      : { cache: "no-store" as const }),
+  });
   if (!res.ok) return null;
   const json = await res.json();
   const parsed = contentSchemas[schemaKey].safeParse(json);
@@ -117,7 +142,7 @@ export async function commitContentUpdateToGithub(params: {
     return {
       committed: false,
       error:
-        "GITHUB_TOKEN is not configured on the server yet. Set GITHUB_TOKEN in Vercel Environment Variables to enable automatic GitHub commits.",
+        "GITHUB_TOKEN is not configured on the server yet. Add a Fine-Grained PAT scoped to yusrazaid/shuhada-masjid in Vercel Environment Variables.",
     };
   }
 

@@ -1,6 +1,13 @@
 import { ArrowUpRight, CalendarClock, Heart, MapPin } from "lucide-react";
+import { format12Hour } from "@/lib/prayer-utils";
+import type { PrayerConfig } from "@/lib/schemas";
 
-export function HeroSection() {
+const defaultJummah: PrayerConfig["jummah"] = [
+  { name: "1st Jummah", khutbah: "12:30", iqamah: "12:55" },
+  { name: "2nd Jummah", khutbah: "13:20", iqamah: "13:45" },
+];
+
+export function HeroSection({ jummah = defaultJummah }: { jummah?: PrayerConfig["jummah"] }) {
   return (
     <section className="hero-photo relative flex min-h-[680px] items-center overflow-hidden pt-24 text-white md:min-h-[720px]">
       <div className="subtle-grid absolute inset-0 opacity-70" aria-hidden="true" />
@@ -55,24 +62,17 @@ export function HeroSection() {
           <div className="mt-6 border-t border-white/15 pt-5">
             <p className="text-xs font-semibold uppercase tracking-[0.13em] text-[#e6d3a1]">Friday Jummah Schedule</p>
             <div className="mt-3 grid gap-3 sm:grid-cols-2">
-              <div className="rounded-xl bg-white/10 px-4 py-3">
-                <p className="text-[11px] font-semibold uppercase tracking-wider text-white/65">1st Jummah</p>
-                <p className="mt-1 text-sm text-white/85">
-                  Khutbah: <strong className="text-white">12:30 PM</strong>
-                </p>
-                <p className="text-sm text-[#e6d3a1]">
-                  Iqamah (Salah): <strong>12:55 PM</strong>
-                </p>
-              </div>
-              <div className="rounded-xl bg-white/10 px-4 py-3">
-                <p className="text-[11px] font-semibold uppercase tracking-wider text-white/65">2nd Jummah</p>
-                <p className="mt-1 text-sm text-white/85">
-                  Khutbah: <strong className="text-white">01:20 PM</strong>
-                </p>
-                <p className="text-sm text-[#e6d3a1]">
-                  Iqamah (Salah): <strong>01:45 PM</strong>
-                </p>
-              </div>
+              {jummah.map((slot) => (
+                <div className="rounded-xl bg-white/10 px-4 py-3" key={slot.name}>
+                  <p className="text-[11px] font-semibold uppercase tracking-wider text-white/65">{slot.name}</p>
+                  <p className="mt-1 text-sm text-white/85">
+                    Khutbah: <strong className="text-white">{format12Hour(slot.khutbah)}</strong>
+                  </p>
+                  <p className="text-sm text-[#e6d3a1]">
+                    Iqamah (Salah): <strong>{format12Hour(slot.iqamah)}</strong>
+                  </p>
+                </div>
+              ))}
             </div>
           </div>
           <div className="mt-6 flex flex-wrap items-center justify-between gap-3 border-t border-white/10 pt-4 text-xs text-white/70">

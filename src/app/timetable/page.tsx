@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
 import { PrayerMonthCalendar } from "@/components/PrayerMonthCalendar";
-import { prayerConfig, siteConfig } from "@/lib/content";
+import { loadCachedLiveContentState } from "@/lib/github-committer";
 import { buildFallbackMonth, getDublinDateParts } from "@/lib/prayer-utils";
 
 export const metadata: Metadata = {
@@ -10,7 +10,11 @@ export const metadata: Metadata = {
   description: "Dublin prayer and Iqamah times for Shaheed Bilal Masjid, with a printable monthly timetable.",
 };
 
-export default function TimetablePage() {
+export default async function TimetablePage() {
+  const live = await loadCachedLiveContentState();
+  const siteConfig = live["site-config"];
+  const prayerConfig = live["prayer-config"];
+
   const today = getDublinDateParts();
   const initialRows = buildFallbackMonth(today.year, today.month, prayerConfig, prayerConfig.asrDefault);
   return (

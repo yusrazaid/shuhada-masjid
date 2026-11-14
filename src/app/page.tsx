@@ -1,4 +1,4 @@
-import { announcements, campaigns, donations, events, media, prayerConfig, services, siteConfig } from "@/lib/content";
+import { loadCachedLiveContentState } from "@/lib/github-committer";
 import { getDublinDateParts, getPrayerTimesFallback } from "@/lib/prayer-utils";
 import { Navbar } from "@/components/Navbar";
 import { TopPrayerBar } from "@/components/TopPrayerBar";
@@ -13,7 +13,17 @@ import { DonationSection } from "@/components/DonationSection";
 import { LocationMapSection } from "@/components/LocationMapSection";
 import { Footer } from "@/components/Footer";
 
-export default function HomePage() {
+export default async function HomePage() {
+  const live = await loadCachedLiveContentState();
+  const siteConfig = live["site-config"];
+  const prayerConfig = live["prayer-config"];
+  const announcements = live.announcements;
+  const campaigns = live.campaigns;
+  const services = live.services;
+  const events = live.events;
+  const media = live.media;
+  const donations = live.donations;
+
   const initialPrayerDay = getPrayerTimesFallback(getDublinDateParts(), prayerConfig);
   const announcement = announcements.announcements.find((item) => item.active);
 
@@ -22,7 +32,7 @@ export default function HomePage() {
       <TopPrayerBar initialPrayerDay={initialPrayerDay} config={prayerConfig} />
       <Navbar organizationName={siteConfig.organizationName} withPrayerBar />
       <main id="main-content" tabIndex={-1}>
-        <HeroSection />
+        <HeroSection jummah={prayerConfig.jummah} />
         {announcement ? <UrgentBanner announcement={announcement} /> : null}
         <PrayerTimetableWidget initialPrayerDay={initialPrayerDay} config={prayerConfig} jummah={prayerConfig.jummah} />
         <section id="about" className="mx-auto grid max-w-7xl gap-12 px-5 py-24 md:px-8 lg:grid-cols-[0.9fr_1.1fr] lg:items-center lg:py-32">

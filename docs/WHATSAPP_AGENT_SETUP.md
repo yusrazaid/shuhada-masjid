@@ -5,7 +5,7 @@ The Shuhada Foundation platform includes a built-in **WhatsApp Coordinator Agent
 - **Live Webhook URL:** `https://shuhadafoundation.com/api/whatsapp/webhook/`
 - **Health Check (`GET`):** `https://shuhadafoundation.com/api/whatsapp/webhook/`
 
-Mosque administrators and coordinators can send plain-English WhatsApp messages from their phones to update urgent banners, Jummah schedules, Iqamah offsets, and community events. Every update is validated against the Zod schemas in `src/lib/schemas.ts`, regenerates `public/presence.json` and `public/events.ics`, and commits directly to `yusrazaid/shuhada-masjid`.
+Mosque administrators and coordinators can send plain-English WhatsApp messages from their phones to update urgent banners, Jummah schedules, Iqamah offsets, and community events. Every update is validated against the Zod schemas in `src/lib/schemas.ts`, committed atomically to `yusrazaid/shuhada-masjid`, and immediately revalidated on the live site (`revalidateTag("shuhada-content")`).
 
 ---
 
@@ -24,25 +24,25 @@ Mosque administrators and coordinators can send plain-English WhatsApp messages 
 | **Add an upcoming event** | `Add event: Community Iftar \| 2026-03-07 18:00 \| Family Iftar at Shaheed Bilal Masjid` |
 | **Clear published one-off events** | `Clear events` |
 
-*(When `GEMINI_API_KEY` or `OPENAI_API_KEY` is configured in Vercel Environment Variables, coordinators can also phrase requests in completely free-form natural language in English, Arabic, or Urdu.)*
+*(When `GEMINI_API_KEY` or `OPENAI_API_KEY` is configured in Vercel Environment Variables, coordinators can also phrase requests in completely free-form natural language.)*
 
 ---
 
-## 2. Environment Variables on Vercel (`zaidabbasi-6309/sfi`)
-
-In **Vercel Dashboard → `sfi` → Settings → Environment Variables**, configure:
+## 2. Security & Environment Variables on Vercel (`zaidabbasi-6309/sfi`)
 
 1. **`WHATSAPP_ALLOWED_NUMBERS`** *(Required)*:
-   - Comma-separated phone numbers of the Mosque Coordinators allowed to update the website (e.g., `+353871234567,+353869876543`).
-   - Any WhatsApp message from a number not on this list is automatically blocked.
-2. **`GITHUB_TOKEN`** *(Required for live commits)*:
+   - Comma-separated E.164 phone numbers of authorized coordinators (e.g., `+447526992368`).
+   - Any message from an unlisted phone number is rejected.
+2. **Webhook Signature / Secret Authentication** *(Required — prevents phone-number spoofing)*:
+   - For **Twilio WhatsApp**: configure `TWILIO_AUTH_TOKEN` (verifies `X-Twilio-Signature`) or `WHATSAPP_WEBHOOK_TOKEN` (append `?token=<secret>` to the Twilio webhook URL).
+   - For **Meta Cloud API**: configure `WHATSAPP_APP_SECRET` (verifies `X-Hub-Signature-256`).
+   - For **Direct JSON API / scripts**: configure `COORDINATOR_API_SECRET` (`Authorization: Bearer <secret>`).
+3. **`GITHUB_TOKEN`** *(Required for live GitHub commits)*:
    - Create a Fine-Grained Personal Access Token at `https://github.com/settings/personal-access-tokens/new`:
      - **Repository access:** Only select repositories → `yusrazaid/shuhada-masjid`
      - **Permissions:** Repository permissions → **Contents: Read and write**
-3. **`VERCEL_DEPLOY_HOOK_URL`** *(Recommended)*:
-   - In Vercel → `sfi` → **Settings → Git → Deploy Hooks**, create a hook for branch `main` and paste the URL here (or connect the GitHub repository in Vercel → Settings → Git so every commit deploys automatically).
 4. **`GEMINI_API_KEY`** *(Optional)*:
-   - Free Google AI Studio API key (`gemini-2.5-flash`) for free-form natural language understanding beyond the built-in deterministic command parser.
+   - Google AI Studio key (`gemini-2.5-flash`) for free-form natural language understanding beyond the built-in deterministic command parser.
 
 ---
 
@@ -50,25 +50,24 @@ In **Vercel Dashboard → `sfi` → Settings → Environment Variables**, config
 
 ### Option A: Twilio WhatsApp (Fastest — Live in 3 Minutes)
 1. Create a free account at `https://www.twilio.com/try-twilio`.
-2. In the Twilio Console, go to **Messaging → Try it out → Send a WhatsApp message** (Twilio Sandbox) or **Senders → WhatsApp Senders**.
-3. Under **Sandbox Configuration → "When a message comes in"**, paste:
-   - **URL:** `https://shuhadafoundation.com/api/whatsapp/webhook/`
-   - **Method:** `HTTP POST`
-4. Click **Save**. Send `Status` or `Help` from your whitelisted WhatsApp number and the bot will reply immediately!
+2. Copy your **Account Auth Token** from the Twilio Console dashboard and add it as `TWILIO_AUTH_TOKEN` in Vercel (or use the pre-generated `?token=` URL secret).
+3. Go to **Messaging → Try it out → Send a WhatsApp message** (Twilio Sandbox) → **Sandbox Settings**.
+4. Under **"When a message comes in"** (`HTTP POST`), enter:
+   - `https://shuhadafoundation.com/api/whatsapp/webhook/` *(if using `TWILIO_AUTH_TOKEN`)*, OR
+   - `https://shuhadafoundation.com/api/whatsapp/webhook/?token=<YOUR_WHATSAPP_WEBHOOK_TOKEN>`
+5. Click **Save**, send the join code to the Twilio Sandbox number from WhatsApp (`+447526992368`), then text `Status` or `Help`.
 
 ### Option B: Meta Official WhatsApp Cloud API (1,000 Free Service Conversations/Month)
 1. Go to `https://developers.facebook.com/apps/` → Create a **Business** app → Add **WhatsApp**.
 2. In **WhatsApp → Configuration → Webhook**, click **Edit**:
    - **Callback URL:** `https://shuhadafoundation.com/api/whatsapp/webhook/`
-   - **Verify token:** Match the `WHATSAPP_VERIFY_TOKEN` variable set in Vercel.
-   - Subscribe to the **`messages`** webhook field.
-3. Add `WHATSAPP_ACCESS_TOKEN` and `WHATSAPP_PHONE_NUMBER_ID` from **WhatsApp → API Setup** to your Vercel Environment Variables.
+   - **Verify token:** Match `WHATSAPP_VERIFY_TOKEN` set in Vercel.
+   - Subscribe to **`messages`**.
+3. Set `WHATSAPP_ACCESS_TOKEN`, `WHATSAPP_PHONE_NUMBER_ID`, and `WHATSAPP_APP_SECRET` in Vercel Environment Variables.
 
 ---
 
 ## 4. Testing Locally from the Terminal
-
-Engineers can test any coordinator message locally without WhatsApp:
 
 ```bash
 npm run coordinator -- "Status"

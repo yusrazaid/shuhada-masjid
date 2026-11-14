@@ -11,6 +11,7 @@
     "build": "next build",
     "build:static": "NEXT_OUTPUT_MODE=export next build",
     "coordinator": "tsx scripts/coordinator-cli.ts",
+    "test": "tsx --test scripts/test-coordinator.ts",
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
