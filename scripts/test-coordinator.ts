@@ -57,6 +57,30 @@ test("Jummah update normalizes afternoon PM times and updates prayer-config", as
   };
   assert.equal(updated.jummah[1]?.khutbah, "13:30");
   assert.equal(updated.jummah[1]?.iqamah, "13:55");
+
+  const multiLineJummah = await interpretCoordinatorMessage(
+    "Jummah Times:\n* Set 1st Jummah Khutbah 12:40 PM Iqamah 12:55 PM\n* Set 2nd Jummah Khutbah 1:30 PM Iqamah 1:45 PM",
+    state,
+  );
+  assert.equal(multiLineJummah.kind, "mutation");
+  const multiUpdated = multiLineJummah.mutation?.updatedContent as {
+    jummah: { name: string; khutbah: string; iqamah: string }[];
+  };
+  assert.equal(multiUpdated.jummah[0]?.khutbah, "12:40");
+  assert.equal(multiUpdated.jummah[0]?.iqamah, "12:55");
+  assert.equal(multiUpdated.jummah[1]?.khutbah, "13:30");
+  assert.equal(multiUpdated.jummah[1]?.iqamah, "13:45");
+
+  const withToKeyword = await interpretCoordinatorMessage(
+    "Set 1st Jummah Khutbah to 1:15 PM and Salah to 1:40 PM",
+    state,
+  );
+  assert.equal(withToKeyword.kind, "mutation");
+  const withToUpdated = withToKeyword.mutation?.updatedContent as {
+    jummah: { name: string; khutbah: string; iqamah: string }[];
+  };
+  assert.equal(withToUpdated.jummah[0]?.khutbah, "13:15");
+  assert.equal(withToUpdated.jummah[0]?.iqamah, "13:40");
 });
 
 test("Add event validates ISO offset date and clears cleanly", async () => {

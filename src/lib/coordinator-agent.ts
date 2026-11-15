@@ -135,7 +135,11 @@ function parseDeterministicCommand(
   state: AllContentState,
 ): CoordinatorResult | null {
   const trimmed = input.trim();
-  const lower = trimmed.toLowerCase();
+  // Strip leading bullets/numbering for single-line checks
+  const cleaned = trimmed
+    .replace(/^(?:[*•\-–—]|\d+[.)])\s*/, "")
+    .trim();
+  const lower = cleaned.toLowerCase();
 
   if (lower === "help" || lower === "?" || lower === "menu" || lower === "commands") {
     return { kind: "help", replyText: buildHelpMessage() };
@@ -147,7 +151,7 @@ function parseDeterministicCommand(
 
   // 1. Clear / hide announcements
   if (
-    /^(?:clear|remove|hide|disable|delete|turn off)\s+(?:all\s+)?(?:urgent\s+)?(?:announcement|announcements|banner|banners)\b/i.test(
+    /(?:^|\n)\s*(?:[*•\-–—]\s*)?(?:clear|remove|hide|disable|delete|turn off)\s+(?:all\s+)?(?:urgent\s+)?(?:announcement|announcements|banner|banners)\b/i.test(
       trimmed,
     )
   ) {
@@ -175,10 +179,14 @@ function parseDeterministicCommand(
 
   // 2. Post / update urgent announcement
   const announceMatch = trimmed.match(
-    /^(?:announce|announcement|post\s+(?:urgent\s+)?(?:announcement|banner)|urgent\s+banner|set\s+(?:urgent\s+)?(?:announcement|banner))\s*[:\-]\s*(.+)$/i,
+    /(?:^|\n)\s*(?:[*•\-–—]\s*)?(?:announce|announcement|post\s+(?:urgent\s+)?(?:announcement|banner)|urgent\s+banner|set\s+(?:urgent\s+)?(?:announcement|banner))\s*[:\-]\s*(.+)/i,
   );
   if (announceMatch) {
-    const rawMessage = announceMatch[1].trim().replace(/^["']|["']$/g, "");
+    const rawMessage = announceMatch[1]
+      .trim()
+      .replace(/^(?:[*•\-–—]\s*)?(?:announce|announcement)\s*[:\-]\s*/i, "")
+      .replace(/^["'`]|["'`]$/g, "")
+      .trim();
     const id = "notice-" + slugify(rawMessage).slice(0, 28);
     const updated = {
       announcements: [
@@ -199,7 +207,7 @@ function parseDeterministicCommand(
     }
     return {
       kind: "mutation",
-      replyText: `✅ Urgent banner ready: "${rawMessage}"`,
+      replyText: `✅ Urgent banner published: "${rawMessage}"`,
       mutation: {
         targetFile: "announcements",
         updatedContent: parsed.data,
@@ -209,31 +217,40 @@ function parseDeterministicCommand(
     };
   }
 
-  // 3. Update 1st or 2nd Jummah times
-  const jummahMatch = trimmed.match(
-    /(?:set|change|update)?\s*(1st|first|2nd|second)\s+jummah\s+(?:to\s+)?(?:khutbah\s*)?(\d{1,2}[:.]\d{2}\s*(?:am|pm)?)\s*(?:and|,|\||\/)?\s*(?:iqamah|salah|prayer)?\s*(\d{1,2}[:.]\d{2}\s*(?:am|pm)?)/i,
-  );
-  if (jummahMatch) {
-    const which = jummahMatch[1].toLowerCase();
-    const slotIndex = which === "1st" || which === "first" ? 0 : 1;
-    let khutbah = parseFlexibleClockTime(jummahMatch[2]);
-    let iqamah = parseFlexibleClockTime(jummahMatch[3]);
-    // For Jummah (midday/afternoon), if someone writes "1:20" without AM/PM, normalize 01:xx-04:xx to 13:xx-16:xx
-    if (khutbah && Number(khutbah.slice(0, 2)) >= 1 && Number(khutbah.slice(0, 2)) <= 4) {
-      khutbah = `${Number(khutbah.slice(0, 2)) + 12}:${khutbah.slice(3, 5)}`;
+  // 3. Update 1st and/or 2nd Jummah times (supports single line or multi-line bullets)
+  const jummahRegex =
+    /(?:set|change|update)?\s*(1st|first|2nd|second)\s+jummah\s+(?:to\s+)?(?:khutbah\s*(?:to\s*|[:\-]\s*)?)?(\d{1,2}[:.]\d{2}\s*(?:am|pm)?)\s*(?:and|,|\||\/)?\s*(?:iqamah|salah|prayer)?\s*(?:to\s*|[:\-]\s*)?(\d{1,2}[:.]\d{2}\s*(?:am|pm)?)/gi;
+  const jummahMatches = [...trimmed.matchAll(jummahRegex)];
+  if (jummahMatches.length > 0) {
+    const nextJummah = state["prayer-config"].jummah.map((slot) => ({ ...slot }));
+    const updatedSummaries: string[] = [];
+
+    for (const m of jummahMatches) {
+      const which = m[1].toLowerCase();
+      const slotIndex = which === "1st" || which === "first" ? 0 : 1;
+      let khutbah = parseFlexibleClockTime(m[2]);
+      let iqamah = parseFlexibleClockTime(m[3]);
+      if (khutbah && Number(khutbah.slice(0, 2)) >= 1 && Number(khutbah.slice(0, 2)) <= 4) {
+        khutbah = `${Number(khutbah.slice(0, 2)) + 12}:${khutbah.slice(3, 5)}`;
+      }
+      if (iqamah && Number(iqamah.slice(0, 2)) >= 1 && Number(iqamah.slice(0, 2)) <= 4) {
+        iqamah = `${Number(iqamah.slice(0, 2)) + 12}:${iqamah.slice(3, 5)}`;
+      }
+      if (!khutbah || !iqamah) {
+        return {
+          kind: "error",
+          replyText:
+            "❌ Please provide valid Khutbah and Iqamah times (e.g. `Set 1st Jummah Khutbah 12:40 PM Iqamah 12:55 PM`).",
+        };
+      }
+      if (nextJummah[slotIndex]) {
+        nextJummah[slotIndex] = { ...nextJummah[slotIndex], khutbah, iqamah };
+        updatedSummaries.push(
+          `${nextJummah[slotIndex].name}: Khutbah ${khutbah} | Iqamah ${iqamah}`,
+        );
+      }
     }
-    if (iqamah && Number(iqamah.slice(0, 2)) >= 1 && Number(iqamah.slice(0, 2)) <= 4) {
-      iqamah = `${Number(iqamah.slice(0, 2)) + 12}:${iqamah.slice(3, 5)}`;
-    }
-    if (!khutbah || !iqamah) {
-      return {
-        kind: "error",
-        replyText: "❌ Please provide valid Khutbah and Iqamah times (e.g. `Set 2nd Jummah Khutbah 1:20 PM Iqamah 1:45 PM`).",
-      };
-    }
-    const nextJummah = state["prayer-config"].jummah.map((slot, index) =>
-      index === slotIndex ? { ...slot, khutbah, iqamah } : slot,
-    );
+
     const updated: PrayerConfig = {
       ...state["prayer-config"],
       jummah: nextJummah,
@@ -245,15 +262,14 @@ function parseDeterministicCommand(
         replyText: `❌ Validation error: ${parsed.error.issues[0]?.message}`,
       };
     }
-    const label = nextJummah[slotIndex].name;
     return {
       kind: "mutation",
-      replyText: `✅ ${label} updated to Khutbah ${khutbah} | Iqamah ${iqamah}.`,
+      replyText: `✅ Jummah schedule updated:\n• ${updatedSummaries.join("\n• ")}`,
       mutation: {
         targetFile: "prayer-config",
         updatedContent: parsed.data,
-        summary: `Update ${label} to Khutbah ${khutbah}, Iqamah ${iqamah}`,
-        commitMessage: `chore(content): update ${label} schedule via Coordinator Agent`,
+        summary: `Update Jummah (${updatedSummaries.join("; ")})`,
+        commitMessage: "chore(content): update Jummah schedule via Coordinator Agent",
       },
     };
   }

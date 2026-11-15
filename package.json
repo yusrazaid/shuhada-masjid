@@ -11,6 +11,7 @@
     "build": "next build",
     "build:static": "NEXT_OUTPUT_MODE=export next build",
     "coordinator": "tsx scripts/coordinator-cli.ts",
+    "whatsapp-bridge": "tsx scripts/whatsapp-bridge.ts",
     "test": "tsx --test scripts/test-coordinator.ts",
     "typecheck": "tsc --noEmit"
   },
@@ -23,10 +24,14 @@
   },
   "devDependencies": {
     "@types/node": "^22.10.5",
+    "@types/qrcode": "^1.5.6",
     "@types/react": "^19.0.6",
     "@types/react-dom": "^19.0.3",
+    "@whiskeysockets/baileys": "^6.7.16",
     "autoprefixer": "^10.4.20",
+    "pino": "^10.4.0",
     "postcss": "^8.4.49",
+    "qrcode": "^1.5.4",
     "tailwindcss": "^3.4.17",
     "tsx": "^4.19.2",
     "typescript": "^5.7.2",
