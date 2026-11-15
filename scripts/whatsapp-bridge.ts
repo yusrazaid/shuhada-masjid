@@ -22,20 +22,38 @@ function loadEnvLocal(): Record<string, string> {
   return env;
 }
 
+function normalizePhone(raw: string): string {
+  const digits = raw
+    .replace(/^whatsapp:/i, "")
+    .replace(/[^0-9]/g, "")
+    .replace(/^00/, "");
+  if (/^08\d{8}$/.test(digits)) {
+    return "353" + digits.slice(1);
+  }
+  if (/^07\d{9}$/.test(digits)) {
+    return "44" + digits.slice(1);
+  }
+  return digits;
+}
+
 const envLocal = loadEnvLocal();
 const WEBHOOK_URL =
   process.env.COORDINATOR_WEBHOOK_URL ||
   "https://shuhadafoundation.com/api/whatsapp/webhook/";
 const API_SECRET =
   process.env.COORDINATOR_API_SECRET || envLocal.COORDINATOR_API_SECRET || "";
-const ALLOWED_NUMBERS = (
-  process.env.WHATSAPP_ALLOWED_NUMBERS ||
-  envLocal.WHATSAPP_ALLOWED_NUMBERS ||
-  "+447526992368"
-)
-  .split(",")
-  .map((s) => s.replace(/[^0-9]/g, ""))
-  .filter(Boolean);
+const ALLOWED_NUMBERS = Array.from(
+  new Set(
+    (
+      process.env.WHATSAPP_ALLOWED_NUMBERS ||
+      envLocal.WHATSAPP_ALLOWED_NUMBERS ||
+      "+447526992368,+41796764995,+353861531260"
+    )
+      .split(",")
+      .map((s) => normalizePhone(s))
+      .filter(Boolean),
+  ),
+);
 
 const QR_OUTPUT_PATH =
   process.env.WHATSAPP_QR_PATH ||
@@ -43,7 +61,26 @@ const QR_OUTPUT_PATH =
 
 const AUTH_DIR = join(process.cwd(), ".whatsapp-auth");
 const WELCOME_MARKER = join(AUTH_DIR, ".welcomed");
+const REGISTERED_JIDS_PATH = join(AUTH_DIR, "registered-jids.json");
 const processedMessageIds = new Set<string>();
+
+function loadRegisteredJids(): Record<string, string> {
+  if (!existsSync(REGISTERED_JIDS_PATH)) return {};
+  try {
+    return JSON.parse(readFileSync(REGISTERED_JIDS_PATH, "utf8")) as Record<
+      string,
+      string
+    >;
+  } catch {
+    return {};
+  }
+}
+
+function saveRegisteredJid(jid: string, phone: string): void {
+  const current = loadRegisteredJids();
+  current[jid] = phone;
+  writeFileSync(REGISTERED_JIDS_PATH, JSON.stringify(current, null, 2), "utf8");
+}
 
 function extractMessageText(message: unknown): string {
   if (!message || typeof message !== "object") return "";
@@ -239,20 +276,65 @@ async function startBridge() {
       if (remoteJid === "status@broadcast") continue;
 
       const rawText = extractMessageText(msg.message);
+      const senderJid = msg.key.participant || remoteJid;
+
+      // 1. Check for self-service Coordinator Registration: "Register +353 86 153 1260"
+      const registerMatch = rawText
+        .trim()
+        .match(/^(?:masjid\s*[:\-]\s*)?register\s*[:\-]?\s*([+0-9\s\-()]{7,20})$/i);
+      if (registerMatch) {
+        const candidatePhone = normalizePhone(registerMatch[1]);
+        processedMessageIds.add(msgId);
+        if (ALLOWED_NUMBERS.includes(candidatePhone)) {
+          saveRegisteredJid(senderJid, candidatePhone);
+          saveRegisteredJid(remoteJid, candidatePhone);
+          const reply = [
+            `✅ *Assalamu Alaykum! Your WhatsApp account (+${candidatePhone}) is now registered and verified as a Shuhada Foundation Website Coordinator.*`,
+            "",
+            "You can now send plain-English updates right here anytime:",
+            "• `Status` — Check live website status",
+            "• `Help` — View all copy-paste commands",
+            "• `Announce: <message>` — Post an urgent banner on shuhadafoundation.com",
+            "• `Clear announcement` — Remove the urgent banner",
+            "• `Set 1st Jummah Khutbah 12:30 PM Iqamah 12:55 PM`",
+          ].join("\n");
+          const sent = await sock.sendMessage(remoteJid, { text: reply });
+          if (sent?.key?.id) processedMessageIds.add(sent.key.id);
+          console.log(
+            `[Coordinator Bridge] Registered JID ${senderJid} -> +${candidatePhone}`,
+          );
+        } else {
+          const sent = await sock.sendMessage(remoteJid, {
+            text: `⛔ Phone number +${candidatePhone} is not yet in the Masjid Coordinator whitelist. Please ask the administrator to add +${candidatePhone} to WHATSAPP_ALLOWED_NUMBERS.`,
+          });
+          if (sent?.key?.id) processedMessageIds.add(sent.key.id);
+        }
+        continue;
+      }
+
       const instruction = isCoordinatorCommand(rawText);
       if (!instruction) continue;
 
-      const senderDigits = (msg.key.participant || remoteJid)
-        .replace(/@.*$/, "")
-        .replace(/[^0-9]/g, "");
+      const senderDigits = normalizePhone(
+        senderJid.replace(/@.*$/, ""),
+      );
+      const registeredJids = loadRegisteredJids();
+      const mappedPhone =
+        registeredJids[senderJid] || registeredJids[remoteJid];
       const isAllowed =
-        Boolean(msg.key.fromMe) || ALLOWED_NUMBERS.includes(senderDigits);
+        Boolean(msg.key.fromMe) ||
+        ALLOWED_NUMBERS.includes(senderDigits) ||
+        Boolean(mappedPhone && ALLOWED_NUMBERS.includes(mappedPhone));
       if (!isAllowed) continue;
 
       processedMessageIds.add(msgId);
-      const effectivePhone = ALLOWED_NUMBERS[0] || "447526992368";
+      const effectivePhone =
+        mappedPhone ||
+        (ALLOWED_NUMBERS.includes(senderDigits)
+          ? senderDigits
+          : ALLOWED_NUMBERS[0] || "447526992368");
       console.log(
-        `[Coordinator Bridge] Processing instruction from ${remoteJid}: "${instruction}"`,
+        `[Coordinator Bridge] Processing instruction from ${remoteJid} (+${effectivePhone}): "${instruction}"`,
       );
 
       try {

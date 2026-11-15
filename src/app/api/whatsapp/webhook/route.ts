@@ -5,10 +5,17 @@ import { interpretCoordinatorMessage } from "@/lib/coordinator-agent";
 import { commitContentUpdateToGithub, loadLiveContentState } from "@/lib/github-committer";
 
 function normalizePhone(raw: string): string {
-  return raw
+  const digits = raw
     .replace(/^whatsapp:/i, "")
     .replace(/[^0-9]/g, "")
     .replace(/^00/, "");
+  if (/^08\d{8}$/.test(digits)) {
+    return "353" + digits.slice(1);
+  }
+  if (/^07\d{9}$/.test(digits)) {
+    return "44" + digits.slice(1);
+  }
+  return digits;
 }
 
 function safeEqualString(a: string, b: string): boolean {
