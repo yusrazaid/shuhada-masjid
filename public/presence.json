@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-11-14T20:19:44.898Z",
+  "generatedAt": "2026-11-15T19:35:48.719Z",
   "identity": {
     "organization": "Shuhada Foundation of Ireland",
     "masjid": "Shaheed Bilal Masjid (Islamic Cultural and Education Centre)",
@@ -26,32 +26,32 @@
     "website": "https://shuhadafoundation.com"
   },
   "prayerTimes": {
-    "date": "2026-11-14",
+    "date": "2026-11-15",
     "source": "Dublin astronomical fallback; the live site refreshes from Aladhan",
-    "sunrise": "07:48",
+    "sunrise": "07:50",
     "adhan": {
-      "fajr": "05:46",
+      "fajr": "05:47",
       "dhuhr": "12:10",
-      "asr": "14:09",
-      "maghrib": "16:33",
-      "isha": "18:28"
+      "asr": "14:08",
+      "maghrib": "16:31",
+      "isha": "18:27"
     },
     "iqamah": {
-      "fajr": "06:11",
+      "fajr": "06:12",
       "dhuhr": "12:25",
-      "asr": "14:24",
-      "maghrib": "16:38",
-      "isha": "18:43"
+      "asr": "14:23",
+      "maghrib": "16:36",
+      "isha": "18:42"
     },
     "jummah": [
       {
         "name": "1st Jummah",
-        "khutbah": "12:30",
+        "khutbah": "12:40",
         "iqamah": "12:55"
       },
       {
         "name": "2nd Jummah",
-        "khutbah": "13:20",
+        "khutbah": "13:30",
         "iqamah": "13:45"
       }
     ],
