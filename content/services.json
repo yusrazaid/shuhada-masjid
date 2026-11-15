@@ -44,15 +44,6 @@
       "icon": "school",
       "actionLabel": "Visit school website",
       "actionHref": "https://szainabschool.com"
-    },
-    {
-      "id": "summe-bilal-school",
-      "title": "Summe Bilal School",
-      "summary": "Visit the Foundation's affiliated school website.",
-      "details": "For school information, admissions and current details, contact the school through its official website.",
-      "icon": "school",
-      "actionLabel": "Visit school website",
-      "actionHref": "https://summebilalschool.com"
     }
   ]
 }

@@ -50,7 +50,7 @@ export const siteConfigSchema = z.object({
       name: z.string().min(1),
       url: httpsUrl,
     }),
-  ).length(2),
+  ).min(1),
   description: z.string().min(20),
 });
 
