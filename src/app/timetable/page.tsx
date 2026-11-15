@@ -26,7 +26,7 @@ export default async function TimetablePage() {
           <p className="mt-10 text-xs font-bold uppercase tracking-[0.25em] text-gold">Europe/Dublin</p>
           <h1 className="mt-3 font-serif text-4xl text-forest md:text-6xl">Prayer timetable</h1>
           <p className="mt-5 max-w-2xl text-base leading-7 text-slate-600">
-            Daily prayer times are fetched from Aladhan and Iqamah is calculated from the published offsets. An astronomical Dublin fallback keeps the timetable available offline.
+            Official monthly Adhan and Iqamah timetable for Shaheed Bilal Masjid (Shuhada Foundation of Ireland, Blanchardstown, Dublin 15), including Hijri dates, Jummah congregations, and Halal Store hours.
           </p>
         </header>
         <PrayerMonthCalendar initialRows={initialRows} config={prayerConfig} />

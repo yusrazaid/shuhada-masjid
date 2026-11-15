@@ -56,6 +56,17 @@ export const siteConfigSchema = z.object({
 
 const clockTime = z.string().regex(/^(?:[01]\d|2[0-3]):[0-5]\d$/, "Use 24-hour HH:mm format.");
 
+const publishedDaySchema = z.object({
+  day: z.number().int().min(1).max(31),
+  hijri: z.string().min(1).optional(),
+  sunrise: clockTime,
+  fajr: z.object({ adhan: clockTime, iqamah: clockTime }),
+  dhuhr: z.object({ adhan: clockTime, iqamah: clockTime }),
+  asr: z.object({ adhan: clockTime, iqamah: clockTime }),
+  maghrib: z.object({ adhan: clockTime, iqamah: clockTime }),
+  isha: z.object({ adhan: clockTime, iqamah: clockTime }),
+});
+
 export const prayerConfigSchema = z.object({
   latitude: z.literal(53.385),
   longitude: z.literal(-6.386),
@@ -70,11 +81,28 @@ export const prayerConfigSchema = z.object({
     maghrib: z.number().int().min(0).max(180),
     isha: z.number().int().min(0).max(180),
   }),
+  fixedIqamahTimes: z.object({
+    fajr: clockTime.optional(),
+    dhuhr: clockTime.optional(),
+    asr: clockTime.optional(),
+    maghrib: clockTime.optional(),
+    isha: clockTime.optional(),
+  }).optional(),
   jummah: z.array(z.object({
     name: z.string().min(1),
     khutbah: clockTime,
     iqamah: clockTime,
   })).length(2),
+  timetableNotes: z.object({
+    dailyNote: z.string().min(1),
+    jummahNote: z.string().min(1),
+    halalStore: z.object({
+      monSat: z.string().min(1),
+      sunHolidays: z.string().min(1),
+      note: z.string().min(1),
+    }),
+  }).optional(),
+  publishedTimetables: z.record(z.string().regex(/^\d{4}-\d{2}$/), z.array(publishedDaySchema)).optional(),
 });
 
 export const announcementsSchema = z.object({

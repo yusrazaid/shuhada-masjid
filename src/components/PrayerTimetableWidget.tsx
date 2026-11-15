@@ -73,7 +73,8 @@ export function PrayerTimetableWidget({
               Prayer times today
             </h2>
             <p className="mt-1 text-sm text-slate-500">
-              {formatDateLabel(day.date)} · Live Dublin Adhan &amp; Masjid Iqamah ({day.source})
+              {formatDateLabel(day.date)}
+              {day.hijri ? ` · ${day.hijri}` : ""} · {day.source}
             </p>
           </div>
           <div className="flex items-center gap-1 rounded-full bg-parchment p-1" role="group" aria-label="Asr calculation">
@@ -167,11 +168,20 @@ export function PrayerTimetableWidget({
             Full monthly timetable <ArrowUpRight size={16} />
           </a>
         </div>
+        {config.timetableNotes ? (
+          <div className="grid gap-2 border-t border-slate-100 bg-parchment/40 px-6 py-3.5 text-xs text-slate-600 md:grid-cols-2 md:px-8">
+            <p>
+              <strong className="text-forest">Masjid Note:</strong> {config.timetableNotes.dailyNote}
+            </p>
+            <p className="md:text-right">
+              <strong className="text-forest">Halal Store:</strong> {config.timetableNotes.halalStore.monSat} · {config.timetableNotes.halalStore.sunHolidays} ({config.timetableNotes.halalStore.note})
+            </p>
+          </div>
+        ) : null}
         <p className="border-t border-slate-100 px-6 py-3 text-center text-[11px] text-slate-400 md:px-8 md:text-left">
-          Times refresh from Aladhan (`Europe/Dublin`). If the external API is slow or unreachable, our deterministic astronomical Dublin fallback (`53.3850, -6.3860`) keeps prayer times available.{" "}
-          {config.iqamahOffsetsConfirmed
-            ? "Confirm local arrangements with the masjid."
-            : "Daily Iqamah offsets are estimates awaiting masjid confirmation."}
+          {day.source === "Official Masjid Timetable"
+            ? "Published from the official Shuhada Foundation of Ireland monthly timetable (Europe/Dublin)."
+            : "Times refresh from Aladhan (Europe/Dublin) with a deterministic astronomical Dublin fallback (53.3850, -6.3860)."}
         </p>
       </div>
     </section>

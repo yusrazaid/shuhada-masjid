@@ -4,13 +4,13 @@
   "timezone": "Europe/Dublin",
   "aladhanMethod": 3,
   "asrDefault": "standard",
-  "iqamahOffsetsConfirmed": false,
+  "iqamahOffsetsConfirmed": true,
   "iqamahOffsetsMinutes": {
-    "fajr": 25,
-    "dhuhr": 15,
-    "asr": 15,
+    "fajr": 20,
+    "dhuhr": 23,
+    "asr": 20,
     "maghrib": 5,
-    "isha": 15
+    "isha": 105
   },
   "jummah": [
     {
@@ -23,5 +23,48 @@
       "khutbah": "13:20",
       "iqamah": "13:45"
     }
-  ]
+  ],
+  "timetableNotes": {
+    "dailyNote": "Daily Dars After Isha Salah · Please donate generously to our Masjid and School",
+    "jummahNote": "First Khutba: 12:30 PM · Second Khutba: 1:20 PM · Khutba is 25 minutes for both",
+    "halalStore": {
+      "monSat": "Mon–Sat: 10am–8pm",
+      "sunHolidays": "Sun & Bank Holidays: 12pm–8pm",
+      "note": "Store closed during Salah timings"
+    }
+  },
+  "publishedTimetables": {
+    "2026-11": [
+      { "day": 1, "hijri": "21 Jumad Awl", "sunrise": "07:18", "fajr": { "adhan": "05:35", "iqamah": "06:00" }, "dhuhr": { "adhan": "12:10", "iqamah": "13:25" }, "asr": { "adhan": "14:28", "iqamah": "15:30" }, "maghrib": { "adhan": "16:58", "iqamah": "17:03" }, "isha": { "adhan": "18:35", "iqamah": "20:00" } },
+      { "day": 2, "hijri": "22 Jumad Awl", "sunrise": "07:20", "fajr": { "adhan": "05:37", "iqamah": "06:00" }, "dhuhr": { "adhan": "12:10", "iqamah": "13:25" }, "asr": { "adhan": "14:27", "iqamah": "15:30" }, "maghrib": { "adhan": "16:56", "iqamah": "17:01" }, "isha": { "adhan": "18:33", "iqamah": "20:00" } },
+      { "day": 3, "hijri": "23 Jumad Awl", "sunrise": "07:22", "fajr": { "adhan": "05:39", "iqamah": "06:00" }, "dhuhr": { "adhan": "12:10", "iqamah": "13:25" }, "asr": { "adhan": "14:25", "iqamah": "15:30" }, "maghrib": { "adhan": "16:54", "iqamah": "16:59" }, "isha": { "adhan": "18:32", "iqamah": "20:00" } },
+      { "day": 4, "hijri": "24 Jumad Awl", "sunrise": "07:24", "fajr": { "adhan": "05:40", "iqamah": "06:00" }, "dhuhr": { "adhan": "12:10", "iqamah": "12:35" }, "asr": { "adhan": "14:24", "iqamah": "15:30" }, "maghrib": { "adhan": "16:52", "iqamah": "16:57" }, "isha": { "adhan": "18:30", "iqamah": "20:00" } },
+      { "day": 5, "hijri": "25 Jumad Awl", "sunrise": "07:26", "fajr": { "adhan": "05:42", "iqamah": "06:00" }, "dhuhr": { "adhan": "12:10", "iqamah": "12:35" }, "asr": { "adhan": "14:22", "iqamah": "15:30" }, "maghrib": { "adhan": "16:51", "iqamah": "16:56" }, "isha": { "adhan": "18:29", "iqamah": "20:00" } },
+      { "day": 6, "hijri": "26 Jumad Awl", "sunrise": "07:28", "fajr": { "adhan": "05:44", "iqamah": "06:00" }, "dhuhr": { "adhan": "12:10", "iqamah": "12:35" }, "asr": { "adhan": "14:21", "iqamah": "15:30" }, "maghrib": { "adhan": "16:49", "iqamah": "16:54" }, "isha": { "adhan": "18:27", "iqamah": "20:00" } },
+      { "day": 7, "hijri": "27 Jumad Awl", "sunrise": "07:30", "fajr": { "adhan": "05:45", "iqamah": "06:00" }, "dhuhr": { "adhan": "12:10", "iqamah": "12:35" }, "asr": { "adhan": "14:19", "iqamah": "15:30" }, "maghrib": { "adhan": "16:47", "iqamah": "16:52" }, "isha": { "adhan": "18:26", "iqamah": "20:00" } },
+      { "day": 8, "hijri": "28 Jumad Awl", "sunrise": "07:32", "fajr": { "adhan": "05:47", "iqamah": "06:00" }, "dhuhr": { "adhan": "12:10", "iqamah": "12:35" }, "asr": { "adhan": "14:18", "iqamah": "15:30" }, "maghrib": { "adhan": "16:45", "iqamah": "16:50" }, "isha": { "adhan": "18:24", "iqamah": "20:00" } },
+      { "day": 9, "hijri": "29 Jumad Awl", "sunrise": "07:34", "fajr": { "adhan": "05:48", "iqamah": "06:15" }, "dhuhr": { "adhan": "12:11", "iqamah": "12:35" }, "asr": { "adhan": "14:17", "iqamah": "15:30" }, "maghrib": { "adhan": "16:43", "iqamah": "16:48" }, "isha": { "adhan": "18:23", "iqamah": "20:00" } },
+      { "day": 10, "hijri": "30 Jumad Awl", "sunrise": "07:36", "fajr": { "adhan": "05:50", "iqamah": "06:15" }, "dhuhr": { "adhan": "12:11", "iqamah": "12:35" }, "asr": { "adhan": "14:15", "iqamah": "15:30" }, "maghrib": { "adhan": "16:42", "iqamah": "16:47" }, "isha": { "adhan": "18:21", "iqamah": "20:00" } },
+      { "day": 11, "hijri": "1 Jumad Akhr", "sunrise": "07:37", "fajr": { "adhan": "05:52", "iqamah": "06:15" }, "dhuhr": { "adhan": "12:11", "iqamah": "12:35" }, "asr": { "adhan": "14:14", "iqamah": "15:30" }, "maghrib": { "adhan": "16:40", "iqamah": "16:45" }, "isha": { "adhan": "18:20", "iqamah": "20:00" } },
+      { "day": 12, "hijri": "2 Jumad Akhr", "sunrise": "07:39", "fajr": { "adhan": "05:53", "iqamah": "06:15" }, "dhuhr": { "adhan": "12:11", "iqamah": "12:35" }, "asr": { "adhan": "14:13", "iqamah": "15:30" }, "maghrib": { "adhan": "16:38", "iqamah": "16:43" }, "isha": { "adhan": "18:18", "iqamah": "20:00" } },
+      { "day": 13, "hijri": "3 Jumad Akhr", "sunrise": "07:41", "fajr": { "adhan": "05:55", "iqamah": "06:15" }, "dhuhr": { "adhan": "12:11", "iqamah": "12:35" }, "asr": { "adhan": "14:12", "iqamah": "15:30" }, "maghrib": { "adhan": "16:37", "iqamah": "16:42" }, "isha": { "adhan": "18:17", "iqamah": "20:00" } },
+      { "day": 14, "hijri": "4 Jumad Akhr", "sunrise": "07:43", "fajr": { "adhan": "05:56", "iqamah": "06:15" }, "dhuhr": { "adhan": "12:11", "iqamah": "12:35" }, "asr": { "adhan": "14:10", "iqamah": "15:30" }, "maghrib": { "adhan": "16:35", "iqamah": "16:40" }, "isha": { "adhan": "18:16", "iqamah": "20:00" } },
+      { "day": 15, "hijri": "5 Jumad Akhr", "sunrise": "07:45", "fajr": { "adhan": "05:58", "iqamah": "06:15" }, "dhuhr": { "adhan": "12:11", "iqamah": "12:35" }, "asr": { "adhan": "14:09", "iqamah": "15:30" }, "maghrib": { "adhan": "16:34", "iqamah": "16:39" }, "isha": { "adhan": "18:15", "iqamah": "20:00" } },
+      { "day": 16, "hijri": "6 Jumad Akhr", "sunrise": "07:47", "fajr": { "adhan": "06:00", "iqamah": "06:30" }, "dhuhr": { "adhan": "12:12", "iqamah": "12:35" }, "asr": { "adhan": "14:08", "iqamah": "14:20" }, "maghrib": { "adhan": "16:32", "iqamah": "16:37" }, "isha": { "adhan": "18:13", "iqamah": "20:00" } },
+      { "day": 17, "hijri": "7 Jumad Akhr", "sunrise": "07:49", "fajr": { "adhan": "06:01", "iqamah": "06:30" }, "dhuhr": { "adhan": "12:12", "iqamah": "12:35" }, "asr": { "adhan": "14:07", "iqamah": "14:20" }, "maghrib": { "adhan": "16:31", "iqamah": "16:36" }, "isha": { "adhan": "18:12", "iqamah": "20:00" } },
+      { "day": 18, "hijri": "8 Jumad Akhr", "sunrise": "07:51", "fajr": { "adhan": "06:03", "iqamah": "06:30" }, "dhuhr": { "adhan": "12:12", "iqamah": "12:35" }, "asr": { "adhan": "14:06", "iqamah": "14:20" }, "maghrib": { "adhan": "16:29", "iqamah": "16:34" }, "isha": { "adhan": "18:11", "iqamah": "20:00" } },
+      { "day": 19, "hijri": "9 Jumad Akhr", "sunrise": "07:52", "fajr": { "adhan": "06:04", "iqamah": "06:30" }, "dhuhr": { "adhan": "12:12", "iqamah": "12:35" }, "asr": { "adhan": "14:05", "iqamah": "14:20" }, "maghrib": { "adhan": "16:28", "iqamah": "16:33" }, "isha": { "adhan": "18:10", "iqamah": "20:00" } },
+      { "day": 20, "hijri": "10 Jumad Akhr", "sunrise": "07:54", "fajr": { "adhan": "06:06", "iqamah": "06:30" }, "dhuhr": { "adhan": "12:12", "iqamah": "12:35" }, "asr": { "adhan": "14:04", "iqamah": "14:20" }, "maghrib": { "adhan": "16:27", "iqamah": "16:32" }, "isha": { "adhan": "18:09", "iqamah": "20:00" } },
+      { "day": 21, "hijri": "11 Jumad Akhr", "sunrise": "07:56", "fajr": { "adhan": "06:07", "iqamah": "06:30" }, "dhuhr": { "adhan": "12:13", "iqamah": "12:35" }, "asr": { "adhan": "14:03", "iqamah": "14:20" }, "maghrib": { "adhan": "16:25", "iqamah": "16:30" }, "isha": { "adhan": "18:08", "iqamah": "20:00" } },
+      { "day": 22, "hijri": "12 Jumad Akhr", "sunrise": "07:58", "fajr": { "adhan": "06:09", "iqamah": "06:30" }, "dhuhr": { "adhan": "12:13", "iqamah": "12:35" }, "asr": { "adhan": "14:02", "iqamah": "14:20" }, "maghrib": { "adhan": "16:24", "iqamah": "16:29" }, "isha": { "adhan": "18:07", "iqamah": "20:00" } },
+      { "day": 23, "hijri": "13 Jumad Akhr", "sunrise": "08:00", "fajr": { "adhan": "06:10", "iqamah": "06:30" }, "dhuhr": { "adhan": "12:13", "iqamah": "12:35" }, "asr": { "adhan": "14:01", "iqamah": "14:20" }, "maghrib": { "adhan": "16:23", "iqamah": "16:28" }, "isha": { "adhan": "18:06", "iqamah": "20:00" } },
+      { "day": 24, "hijri": "14 Jumad Akhr", "sunrise": "08:01", "fajr": { "adhan": "06:12", "iqamah": "06:30" }, "dhuhr": { "adhan": "12:14", "iqamah": "12:35" }, "asr": { "adhan": "14:01", "iqamah": "14:20" }, "maghrib": { "adhan": "16:22", "iqamah": "16:27" }, "isha": { "adhan": "18:05", "iqamah": "20:00" } },
+      { "day": 25, "hijri": "15 Jumad Akhr", "sunrise": "08:03", "fajr": { "adhan": "06:13", "iqamah": "06:30" }, "dhuhr": { "adhan": "12:14", "iqamah": "12:35" }, "asr": { "adhan": "14:00", "iqamah": "14:20" }, "maghrib": { "adhan": "16:21", "iqamah": "16:26" }, "isha": { "adhan": "18:05", "iqamah": "20:00" } },
+      { "day": 26, "hijri": "16 Jumad Akhr", "sunrise": "08:05", "fajr": { "adhan": "06:14", "iqamah": "06:30" }, "dhuhr": { "adhan": "12:14", "iqamah": "12:35" }, "asr": { "adhan": "13:59", "iqamah": "14:20" }, "maghrib": { "adhan": "16:20", "iqamah": "16:25" }, "isha": { "adhan": "18:04", "iqamah": "20:00" } },
+      { "day": 27, "hijri": "17 Jumad Akhr", "sunrise": "08:06", "fajr": { "adhan": "06:16", "iqamah": "06:30" }, "dhuhr": { "adhan": "12:15", "iqamah": "12:35" }, "asr": { "adhan": "13:58", "iqamah": "14:20" }, "maghrib": { "adhan": "16:19", "iqamah": "16:24" }, "isha": { "adhan": "18:03", "iqamah": "20:00" } },
+      { "day": 28, "hijri": "18 Jumad Akhr", "sunrise": "08:08", "fajr": { "adhan": "06:17", "iqamah": "06:30" }, "dhuhr": { "adhan": "12:15", "iqamah": "12:35" }, "asr": { "adhan": "13:58", "iqamah": "14:20" }, "maghrib": { "adhan": "16:18", "iqamah": "16:23" }, "isha": { "adhan": "18:02", "iqamah": "20:00" } },
+      { "day": 29, "hijri": "19 Jumad Akhr", "sunrise": "08:10", "fajr": { "adhan": "06:19", "iqamah": "06:30" }, "dhuhr": { "adhan": "12:15", "iqamah": "12:35" }, "asr": { "adhan": "13:57", "iqamah": "14:20" }, "maghrib": { "adhan": "16:17", "iqamah": "16:22" }, "isha": { "adhan": "18:02", "iqamah": "20:00" } },
+      { "day": 30, "hijri": "20 Jumad Akhr", "sunrise": "08:11", "fajr": { "adhan": "06:20", "iqamah": "06:30" }, "dhuhr": { "adhan": "12:16", "iqamah": "12:35" }, "asr": { "adhan": "13:56", "iqamah": "14:20" }, "maghrib": { "adhan": "16:16", "iqamah": "16:21" }, "isha": { "adhan": "18:01", "iqamah": "20:00" } }
+    ]
+  }
 }

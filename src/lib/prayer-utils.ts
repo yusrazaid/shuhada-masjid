@@ -6,15 +6,38 @@ export type AsrSchool = "standard" | "hanafi";
 
 export type PrayerDay = {
   date: DateParts;
+  hijri?: string;
   sunrise: string;
   prayers: Record<PrayerName, { adhan: string; iqamah: string }>;
-  source: "Aladhan" | "Dublin astronomical fallback";
+  source: "Official Masjid Timetable" | "Aladhan" | "Dublin astronomical fallback";
 };
 
 export type PrayerMonthDay = PrayerDay & { weekday: string };
 
 const prayerNames: PrayerName[] = ["fajr", "dhuhr", "asr", "maghrib", "isha"];
 const degrees = Math.PI / 180;
+
+function getPublishedDay(date: DateParts, config: PrayerConfig): PrayerDay | null {
+  const monthKey = `${date.year.toString().padStart(4, "0")}-${date.month.toString().padStart(2, "0")}`;
+  const monthRows = config.publishedTimetables?.[monthKey];
+  if (!monthRows) return null;
+  const entry = monthRows.find((r) => r.day === date.day);
+  if (!entry) return null;
+  const prayers = {} as PrayerDay["prayers"];
+  for (const name of prayerNames) {
+    prayers[name] = {
+      adhan: entry[name].adhan,
+      iqamah: config.fixedIqamahTimes?.[name] ?? entry[name].iqamah,
+    };
+  }
+  return {
+    date,
+    hijri: entry.hijri,
+    sunrise: entry.sunrise,
+    prayers,
+    source: "Official Masjid Timetable",
+  };
+}
 
 export function getDublinDateParts(date: Date = new Date(), offsetDays = 0): DateParts {
   const parts = new Intl.DateTimeFormat("en-IE", {
@@ -115,6 +138,9 @@ export function getPrayerTimesFallback(
   config: PrayerConfig,
   school: AsrSchool = config.asrDefault,
 ): PrayerDay {
+  const published = getPublishedDay(date, config);
+  if (published) return published;
+
   const { declination, equationMinutes } = solarTerms(date);
   const offset = dublinUtcOffsetMinutes(date);
   const solarNoon = 720 - 4 * config.longitude - equationMinutes + offset;
@@ -153,7 +179,9 @@ function withIqamah(
   for (const name of prayerNames) {
     prayers[name] = {
       adhan: adhan[name],
-      iqamah: clockFromMinutes(minutesFromClock(adhan[name]) + config.iqamahOffsetsMinutes[name]),
+      iqamah:
+        config.fixedIqamahTimes?.[name] ??
+        clockFromMinutes(minutesFromClock(adhan[name]) + config.iqamahOffsetsMinutes[name]),
     };
   }
   return { date, sunrise, prayers, source };
@@ -177,6 +205,9 @@ export async function fetchPrayerDay(
   school: AsrSchool = config.asrDefault,
 ): Promise<PrayerDay> {
   const fallback = getPrayerTimesFallback(date, config, school);
+  if (fallback.source === "Official Masjid Timetable") {
+    return fallback;
+  }
   const params = new URLSearchParams({
     latitude: String(config.latitude),
     longitude: String(config.longitude),
@@ -232,6 +263,9 @@ export async function fetchPrayerMonth(
   school: AsrSchool,
 ): Promise<PrayerMonthDay[]> {
   const fallback = buildFallbackMonth(year, month, config, school);
+  if (fallback.every((r) => r.source === "Official Masjid Timetable")) {
+    return fallback;
+  }
   const params = new URLSearchParams({
     latitude: String(config.latitude),
     longitude: String(config.longitude),

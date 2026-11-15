@@ -2,12 +2,16 @@
   "events": [],
   "programmes": [
     {
-      "title": "Community programmes",
-      "description": "Ask the Foundation about current learning, family and community activities."
+      "title": "Daily Dars After Isha Salah",
+      "description": "Join the congregation daily after Isha Salah (8:00 PM Iqamah in November) at Shaheed Bilal Masjid for a short reminder and reflection."
     },
     {
-      "title": "Volunteer with us",
-      "description": "Share your interest and the team will respond with current opportunities."
+      "title": "On-Site Halal Store",
+      "description": "Open Mon–Sat 10:00 AM – 8:00 PM and Sun & Bank Holidays 12:00 PM – 8:00 PM. Store closed during Salah timings."
+    },
+    {
+      "title": "Community programmes & volunteering",
+      "description": "Ask the Foundation about current learning, family activities, and volunteer opportunities."
     }
   ]
 }
