@@ -3,12 +3,15 @@ import { z } from "zod";
 const httpsUrl = z.string().url().refine((value) => value.startsWith("https://"), "Use HTTPS URLs.");
 const bankTransferSchema = z.object({
   bankName: z.string().min(1).refine((value) => !/\[.*placeholder.*\]/i.test(value), "Use a verified bank name."),
+  bankAddress: z.string().min(1).optional(),
   accountName: z.string().min(1).refine((value) => !/\[.*placeholder.*\]/i.test(value), "Use a verified account name."),
   iban: z.string().min(15).refine((value) => {
     const normalized = value.replace(/\s/g, "").toUpperCase();
     return /^[A-Z]{2}\d{2}[A-Z0-9]{11,30}$/.test(normalized) && !/^IE00/.test(normalized);
   }, "Use a verified IBAN."),
   bic: z.string().min(8).refine((value) => /^[A-Z]{6}[A-Z0-9]{2}([A-Z0-9]{3})?$/.test(value) && !/^BANKIE/.test(value), "Use a verified BIC."),
+  sortCode: z.string().min(1).optional(),
+  accountNumber: z.string().min(1).optional(),
 });
 const actionHref = z.string().refine(
   (value) =>

@@ -1,8 +1,16 @@
 {
-  "bankTransferEnabled": false,
+  "bankTransferEnabled": true,
   "onlineDonationEnabled": false,
   "whatsappCommunityEnabled": false,
-  "bankTransfer": null,
+  "bankTransfer": {
+    "bankName": "Bank of Ireland",
+    "bankAddress": "Beaumont Hospital Branch, Beaumont Road, Dublin 9, Ireland",
+    "accountName": "Dawah Community Centre",
+    "iban": "IE12BOFI90073889753200",
+    "bic": "BOFIIE2DXXX",
+    "sortCode": "900738",
+    "accountNumber": "89753200"
+  },
   "onlineDonationUrl": null,
   "whatsappUrl": null,
   "fallbackEmail": "info@shuhadafoundation.com",

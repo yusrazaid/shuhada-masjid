@@ -145,7 +145,7 @@ Clear events
 
 - **Authorized Numbers Only:** Only phone numbers listed in `WHATSAPP_ALLOWED_NUMBERS` (`+353 86 153 1260`, `+44 7526 992368`, `+41 79 676 49 95`) can register or trigger updates. Messages from unknown numbers are rejected.
 - **Strict Format & Schema Validation:** Every update is validated before saving. Invalid clock times or malformed dates are safely rejected with a helpful explanation.
-- **Protected Financial & Charity Details:** Bank details (`IBAN: IE66AIBK93251559772394`, `BIC: AIBKIE2D`), Charity numbers (`RCN: 20069506`, `CHY: 18219`), and official contact information cannot be altered by WhatsApp commands.
+- **Protected Financial & Charity Details:** Bank details (`Dawah Community Centre`, `Bank of Ireland`, `IBAN: IE12BOFI90073889753200`, `BIC: BOFIIE2DXXX`), Charity numbers (`RCN: 20069506`, `CHY: 18219`), and official contact information cannot be altered by WhatsApp commands.
 - **Full Audit History:** Every change creates a timestamped commit on GitHub (`https://github.com/yusrazaid/shuhada-masjid/commits/main`) so any change can be reviewed or reverted in one click.
 
 ---

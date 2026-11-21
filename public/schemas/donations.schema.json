@@ -22,6 +22,10 @@
                   "type": "string",
                   "minLength": 1
                 },
+                "bankAddress": {
+                  "type": "string",
+                  "minLength": 1
+                },
                 "accountName": {
                   "type": "string",
                   "minLength": 1
@@ -33,6 +37,14 @@
                 "bic": {
                   "type": "string",
                   "minLength": 8
+                },
+                "sortCode": {
+                  "type": "string",
+                  "minLength": 1
+                },
+                "accountNumber": {
+                  "type": "string",
+                  "minLength": 1
                 }
               },
               "required": [

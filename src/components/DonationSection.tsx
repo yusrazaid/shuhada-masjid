@@ -1,10 +1,12 @@
 "use client";
 
-import { useState } from "react";
-import { ArrowUpRight, Heart, Landmark, Phone, ShieldCheck } from "lucide-react";
+import { useEffect, useMemo, useState } from "react";
+import { ArrowUpRight, Check, Copy, Heart, Landmark, Phone, QrCode, ShieldCheck } from "lucide-react";
+import QRCode from "qrcode";
 import type { DonationConfig } from "@/lib/schemas";
 
 const FALLBACK_MAILTO = "mailto:info@shuhadafoundation.com?subject=Masjid%20Donation%20Details";
+const TAX_RELIEF_MAILTO = "mailto:info@shuhadafoundation.com?subject=Donation%20Receipt%20%2F%20CHY3%20Tax%20Relief";
 const FALLBACK_TEL = "tel:+35318218748";
 
 const FUNDS = [
@@ -36,10 +38,91 @@ const FUNDS = [
 
 const EUR_TIERS = [25, 50, 100, 250, 500] as const;
 
+function formatIbanDisplay(iban: string): string {
+  const clean = iban.replace(/\s+/g, "").toUpperCase();
+  return clean.match(/.{1,4}/g)?.join(" ") ?? clean;
+}
+
 export function DonationSection({ donations }: { donations: DonationConfig }) {
   const [selectedFundId, setSelectedFundId] = useState<string>(FUNDS[0].id);
   const [selectedTier, setSelectedTier] = useState<number>(100);
+  const [copiedField, setCopiedField] = useState<string | null>(null);
+  const [qrDataUrl, setQrDataUrl] = useState<string | null>(null);
   const selectedFund = FUNDS.find((fund) => fund.id === selectedFundId) ?? FUNDS[0];
+  const bank = donations.bankTransferEnabled ? donations.bankTransfer : null;
+
+  const normalizedIban = bank ? bank.iban.replace(/\s+/g, "").toUpperCase() : "";
+
+  const epcPayload = useMemo(() => {
+    if (!bank) return "";
+    return [
+      "BCD",
+      "002",
+      "1",
+      "SCT",
+      bank.bic,
+      bank.accountName,
+      normalizedIban,
+      `EUR${selectedTier.toFixed(2)}`,
+      "",
+      "",
+      selectedFund.label.slice(0, 140),
+    ].join("\n");
+  }, [bank, normalizedIban, selectedTier, selectedFund.label]);
+
+  useEffect(() => {
+    if (!epcPayload) {
+      setQrDataUrl(null);
+      return;
+    }
+    let active = true;
+    QRCode.toDataURL(epcPayload, { width: 180, margin: 1 })
+      .then((url) => {
+        if (active) setQrDataUrl(url);
+      })
+      .catch(() => {
+        if (active) setQrDataUrl(null);
+      });
+    return () => {
+      active = false;
+    };
+  }, [epcPayload]);
+
+  function copyText(key: string, value: string) {
+    if (typeof navigator !== "undefined" && navigator.clipboard) {
+      void navigator.clipboard.writeText(value);
+      setCopiedField(key);
+      window.setTimeout(() => {
+        setCopiedField((current) => (current === key ? null : current));
+      }, 2000);
+    }
+  }
+
+  const bankCopyRows = bank
+    ? [
+        { key: "accountName", label: "Account name", display: bank.accountName, copyValue: bank.accountName, mono: false },
+        { key: "iban", label: "IBAN", display: formatIbanDisplay(normalizedIban), copyValue: normalizedIban, mono: true },
+        { key: "bic", label: "BIC", display: bank.bic, copyValue: bank.bic, mono: true },
+        { key: "reference", label: "Suggested payment reference", display: selectedFund.label, copyValue: selectedFund.label, mono: false },
+      ]
+    : [];
+
+  const allBankSummary = bank
+    ? [
+        `Account Name: ${bank.accountName}`,
+        `Bank: ${bank.bankName}${bank.bankAddress ? ` (${bank.bankAddress})` : ""}`,
+        `IBAN: ${normalizedIban}`,
+        `BIC: ${bank.bic}`,
+        bank.sortCode ? `Sort Code: ${bank.sortCode}` : null,
+        bank.accountNumber ? `Account Number: ${bank.accountNumber}` : null,
+        `Reference: ${selectedFund.label} (EUR ${selectedTier})`,
+      ]
+        .filter(Boolean)
+        .join("\n")
+    : "";
+
+  const qualifyingBoost = ((selectedTier / 0.69) - selectedTier).toFixed(2);
+  const qualifyingGross = (selectedTier / 0.69).toFixed(2);
 
   return (
     <section id="donate" className="bg-parchment px-5 py-20 md:px-8 md:py-28">
@@ -133,32 +216,109 @@ export function DonationSection({ donations }: { donations: DonationConfig }) {
               <p className="mt-1 text-xs font-semibold uppercase tracking-wider text-gold">
                 Reference: {selectedFund.label} (€{selectedTier})
               </p>
-              {donations.bankTransferEnabled && donations.bankTransfer ? (
-                <dl className="mt-5 space-y-3 text-sm">
-                  <div>
-                    <dt className="text-slate-500">Bank</dt>
-                    <dd className="font-semibold text-forest">{donations.bankTransfer.bankName}</dd>
-                  </div>
-                  <div>
-                    <dt className="text-slate-500">Account name</dt>
-                    <dd className="font-semibold text-forest">{donations.bankTransfer.accountName}</dd>
-                  </div>
-                  <div>
-                    <dt className="text-slate-500">IBAN</dt>
-                    <dd className="break-all font-mono font-semibold text-forest">{donations.bankTransfer.iban}</dd>
-                  </div>
-                  <div>
-                    <dt className="text-slate-500">BIC</dt>
-                    <dd className="font-mono font-semibold text-forest">{donations.bankTransfer.bic}</dd>
-                  </div>
-                </dl>
+              {bank ? (
+                <>
+                  <dl className="mt-5 space-y-3 text-sm">
+                    <div>
+                      <dt className="text-xs font-medium text-slate-500">Bank</dt>
+                      <dd className="font-semibold text-forest">{bank.bankName}</dd>
+                      {bank.bankAddress ? <dd className="text-xs text-slate-500">{bank.bankAddress}</dd> : null}
+                    </div>
+                    {bankCopyRows.map((row) => (
+                      <div key={row.key} className="flex items-start justify-between gap-3">
+                        <div className="min-w-0">
+                          <dt className="text-xs font-medium text-slate-500">{row.label}</dt>
+                          <dd className={"font-semibold text-forest break-all " + (row.mono ? "font-mono" : "")}>{row.display}</dd>
+                        </div>
+                        <button
+                          type="button"
+                          onClick={() => copyText(row.key, row.copyValue)}
+                          aria-label={`Copy ${row.label}`}
+                          className="mt-1 inline-flex shrink-0 items-center gap-1 rounded-full border border-forest/15 bg-parchment px-2.5 py-1 text-[11px] font-semibold text-forest transition hover:bg-forest hover:text-white"
+                        >
+                          {copiedField === row.key ? <Check size={12} /> : <Copy size={12} />}
+                          {copiedField === row.key ? "Copied" : "Copy"}
+                        </button>
+                      </div>
+                    ))}
+                    {(bank.sortCode || bank.accountNumber) ? (
+                      <div className="grid grid-cols-2 gap-3 rounded-xl bg-parchment/60 p-3">
+                        {bank.sortCode ? (
+                          <div className="flex items-center justify-between gap-2">
+                            <div>
+                              <dt className="text-[11px] font-medium text-slate-500">Sort Code</dt>
+                              <dd className="font-mono text-sm font-semibold text-forest">{bank.sortCode}</dd>
+                            </div>
+                            <button
+                              type="button"
+                              onClick={() => copyText("sortCode", bank.sortCode!)}
+                              aria-label="Copy Sort Code"
+                              className="inline-flex items-center rounded-full border border-forest/15 bg-white p-1.5 text-forest transition hover:bg-forest hover:text-white"
+                            >
+                              {copiedField === "sortCode" ? <Check size={12} /> : <Copy size={12} />}
+                            </button>
+                          </div>
+                        ) : null}
+                        {bank.accountNumber ? (
+                          <div className="flex items-center justify-between gap-2">
+                            <div>
+                              <dt className="text-[11px] font-medium text-slate-500">Account Number</dt>
+                              <dd className="font-mono text-sm font-semibold text-forest">{bank.accountNumber}</dd>
+                            </div>
+                            <button
+                              type="button"
+                              onClick={() => copyText("accountNumber", bank.accountNumber!)}
+                              aria-label="Copy Account Number"
+                              className="inline-flex items-center rounded-full border border-forest/15 bg-white p-1.5 text-forest transition hover:bg-forest hover:text-white"
+                            >
+                              {copiedField === "accountNumber" ? <Check size={12} /> : <Copy size={12} />}
+                            </button>
+                          </div>
+                        ) : null}
+                      </div>
+                    ) : null}
+                  </dl>
+
+                  {qrDataUrl ? (
+                    <div className="mt-5 flex items-center gap-4 rounded-2xl border border-forest/10 bg-parchment/50 p-3.5">
+                      <img
+                        src={qrDataUrl}
+                        alt={`EPC SEPA QR code to transfer EUR ${selectedTier} to ${bank.accountName}`}
+                        width={96}
+                        height={96}
+                        className="h-24 w-24 shrink-0 rounded-xl border border-forest/10 bg-white p-1"
+                      />
+                      <div className="min-w-0 flex-1">
+                        <p className="inline-flex items-center gap-1.5 text-xs font-bold uppercase tracking-wider text-forest">
+                          <QrCode size={14} className="text-gold" /> Scan to Pay via SEPA App
+                        </p>
+                        <p className="mt-1 text-xs leading-5 text-slate-600">
+                          Scan in Revolut, AIB, Bank of Ireland, PTSB, or N26 to pre-fill <strong>€{selectedTier}</strong> to{" "}
+                          <strong>{bank.accountName}</strong> (0% fees).
+                        </p>
+                      </div>
+                    </div>
+                  ) : null}
+                </>
               ) : (
                 <p className="mt-3 text-sm leading-7 text-slate-600">
                   To protect donors from unverified account numbers, official SEPA / IBAN transfer instructions are issued directly by the Masjid Treasury team.
                 </p>
               )}
             </div>
-            {!donations.bankTransferEnabled || !donations.bankTransfer ? (
+
+            {bank ? (
+              <div className="mt-6 flex flex-wrap items-center gap-3">
+                <button
+                  type="button"
+                  onClick={() => copyText("all", allBankSummary)}
+                  className="inline-flex items-center gap-2 rounded-full bg-forest px-5 py-3 text-sm font-semibold text-white transition hover:bg-forest-deep"
+                >
+                  {copiedField === "all" ? <Check size={15} /> : <Copy size={15} />}
+                  {copiedField === "all" ? "Copied All Bank Details" : "Copy All Bank Details"}
+                </button>
+              </div>
+            ) : (
               <div className="mt-6 flex flex-col items-start gap-3">
                 <a
                   className="inline-flex items-center gap-2 rounded-full bg-forest px-5 py-3 text-sm font-semibold text-white transition hover:bg-forest-deep"
@@ -173,7 +333,7 @@ export function DonationSection({ donations }: { donations: DonationConfig }) {
                   <Phone size={14} /> Or call 01 821 8748 (+353 1 821 8748)
                 </a>
               </div>
-            ) : null}
+            )}
           </article>
 
           <article className="flex flex-col justify-between rounded-[1.75rem] bg-forest p-7 text-white shadow-soft md:p-9">
@@ -181,11 +341,31 @@ export function DonationSection({ donations }: { donations: DonationConfig }) {
               <span className="flex h-12 w-12 items-center justify-center rounded-2xl bg-white/10 text-[#e6d3a1]">
                 <Heart size={22} />
               </span>
-              <h3 className="mt-6 font-serif text-2xl">Sadaqah Jariyah &amp; Online Giving</h3>
+              <h3 className="mt-6 font-serif text-2xl">Sadaqah Jariyah &amp; Standing Order</h3>
               <p className="mt-3 text-sm leading-7 text-white/75">
                 “When a person dies, their deeds come to an end except for three: ongoing charity (Sadaqah Jariyah), beneficial knowledge, and a righteous child who prays for them.”
               </p>
               <p className="mt-2 text-xs text-[#e6d3a1]">Sahih Muslim 1631</p>
+
+              {bank ? (
+                <div className="mt-6 rounded-2xl border border-white/15 bg-white/[0.07] p-4">
+                  <p className="text-[11px] font-bold uppercase tracking-[0.16em] text-[#e6d3a1]">
+                    Irish Revenue CHY3 Tax Relief (+44.9%)
+                  </p>
+                  {selectedTier >= 250 ? (
+                    <p className="mt-2 text-sm leading-6 text-white/90">
+                      Your <strong>€{selectedTier}</strong> donation allows the charity (CHY. 18219) to reclaim{" "}
+                      <strong className="text-[#e6d3a1]">+€{qualifyingBoost}</strong> from Revenue — turning your gift into{" "}
+                      <strong>€{qualifyingGross}</strong> total value at €0 extra cost to you.
+                    </p>
+                  ) : (
+                    <p className="mt-2 text-sm leading-6 text-white/90">
+                      Setting up a monthly bank standing order of <strong>€21/month (€252/year)</strong> or donating{" "}
+                      <strong>€250+</strong> in a year lets the Masjid reclaim <strong className="text-[#e6d3a1]">+€112.32+</strong> via Irish Revenue (CHY. 18219) at €0 extra cost.
+                    </p>
+                  )}
+                </div>
+              ) : null}
             </div>
             {donations.onlineDonationEnabled && donations.onlineDonationUrl ? (
               <div className="mt-7">
@@ -202,9 +382,10 @@ export function DonationSection({ donations }: { donations: DonationConfig }) {
               <div className="mt-7 flex flex-col items-start gap-3">
                 <a
                   className="inline-flex items-center gap-2 rounded-full bg-[#c6a45d] px-5 py-3 text-sm font-bold text-forest-deep transition hover:bg-[#d8ba77]"
-                  href={FALLBACK_MAILTO}
+                  href={bank ? TAX_RELIEF_MAILTO : FALLBACK_MAILTO}
                 >
-                  Contact Masjid Treasury for Official SEPA / Bank Details <ArrowUpRight size={15} />
+                  {bank ? "Request Donation Receipt or CHY3 Form" : "Contact Masjid Treasury for Official SEPA / Bank Details"}{" "}
+                  <ArrowUpRight size={15} />
                 </a>
                 <a
                   className="inline-flex items-center gap-1.5 text-sm font-semibold text-[#e6d3a1] underline underline-offset-4 hover:text-white"
